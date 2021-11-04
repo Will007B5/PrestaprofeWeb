@@ -19,6 +19,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'birth_date',
+        'gender',
+        'civil_status',
+        'curp',
+        'address',
+        'institution_id',
+        'type',
+        'salary_id',
+        'phone',
         'email',
         'password',
     ];
@@ -41,4 +51,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function salary()
+    {
+        return $this->belongsTo(Salary::class);
+    }
 }

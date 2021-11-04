@@ -15,11 +15,21 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('name')->required();
+            $table->string('last_name')->required();
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['Hombre', 'Mujer'])->default('Hombre');
+            $table->enum('civil_status', ['Soltero/a', 'Casado/a', 'Divorciado/a', 'Separacion en proceso judicial', 'Viudo/a', 'Concubinato'])->default('Soltero/a');
+            $table->string('curp')->nullable();
+            $table->string('address')->nullable();
+            $table->string('type')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->required();
+            $table->string('password')->required();
+            $table->unsignedBigInteger('institution_id');
+            $table->unsignedBigInteger('salary_id');
+            $table->foreign('institution_id')->references('id')->on('institutions');
+            $table->foreign('salary_id')->references('id')->on('salaries');
             $table->timestamps();
         });
     }
