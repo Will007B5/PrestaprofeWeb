@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserService {
 
@@ -38,7 +40,8 @@ class UserService {
             'type' => 'required|string',
             'salary_id' => 'required|exists:salaries,id',
             'phone' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:users'
+            'email' => 'required|string|email|max:255|unique:users',
+            'role' => 'required|exists:roles,name'
         ];
 
         $validator= Validator::make($data,$rules);
@@ -50,7 +53,7 @@ class UserService {
         }else{
             $pass = $this->make_password();
 
-            $data['password'] = bcrypt($pass);
+            $data['password'] = Hash::make($pass);
 
             // $user = User::make($data);
 
@@ -80,7 +83,8 @@ class UserService {
             'type' => 'string',
             'salary_id' => 'exists:salaries,id',
             'phone' => 'string|max:15',
-            'email' => 'string|email|max:255|unique:users'
+            'email' => 'string|email|max:255|unique:users',
+            'role' => 'exists:roles,name'
         ];
 
         $validator= Validator::make($data,$rules);

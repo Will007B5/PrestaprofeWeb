@@ -39,7 +39,10 @@ class UserRepository{
      */
     public function create($user)
     {
-        return $this->user::create($user);
+        $returnedUser = $this->user::create($user);
+        $returnedUser->assignRole($user['role']);
+        $returnedUser->save();
+        return $returnedUser;
     }
 
     /**
@@ -50,7 +53,12 @@ class UserRepository{
      */
     public function update($data, $user)
     {
-        return $user::update($data);
+        $returnedUser = $user->update($data);
+        if(count($data) > 0){
+            $returnedUser = $user->syncRoles($data['role']);
+            $returnedUser->save();
+        }
+        return $returnedUser;
     }
 
     /**
