@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,8 @@ use App\Http\Controllers\Api\AuthController;
 Route::post('register', [AuthController::class, 'register']);
 //API route for login user
 Route::post('login', [AuthController::class, 'login']);
+
+Route::post('mobilelogin', [AuthController::class, 'mobilelogin']);
 
 Route::resource('institutions', 'Api\InstitutionController');
 Route::resource('salaries', 'Api\SalaryController');
