@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -54,8 +55,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                // $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $token = $user->createToken('Laravel Password Grant Client')->plainTextToken;
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token];
                 return response($response, 200);
             } else {
@@ -68,9 +68,41 @@ class AuthController extends Controller
         }
     }
 
+    public function mobilelogin(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+            'device_name' => 'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response($validator->errors(), 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = $user->createToken($request->device_name)->plainTextToken;
+                $response = ['token' => $token];
+                return response($response, 200);
+            } else {
+                $response = ["password" => "Contraseña incorrecta"];
+                return response($response, 422);
+            }
+        } else {
+            $response = ["email" =>'El email proporcionado no está asociado a un usuario registrado'];
+            return response($response, 422);
+        }
+
+    }
+
     // method for user logout and delete token
     public function logout(Request $request)
     {
+        //Hacer que solo borre el token actual o el que le manda el usuario
         auth()->user()->tokens()->delete();
 
         $response = [
