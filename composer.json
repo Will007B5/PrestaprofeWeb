@@ -12,6 +12,7 @@
         "laravel/nexmo-notification-channel": "^2.5",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.3",
         "nexmo/laravel": "^2.4",
         "spatie/laravel-permission": "^5.3"
     },
