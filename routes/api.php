@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Models\User;
+use App\Http\Controllers\Api\StateController;
 use Illuminate\Support\Facades\Hash;
 
 /*
@@ -25,6 +26,8 @@ Route::post('mobilelogin', [AuthController::class, 'mobilelogin']);
 
 Route::resource('institutions', 'Api\InstitutionController');
 Route::resource('salaries', 'Api\SalaryController');
+
+Route::post('importaEstados', [StateController::class, 'importStates']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

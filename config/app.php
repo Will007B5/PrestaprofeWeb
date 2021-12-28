@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => array_key_exists('APP_ENV', $_SERVER) ? $_SERVER['APP_ENV'] : env('APP_ENV'),
 
     /*
     |--------------------------------------------------------------------------
