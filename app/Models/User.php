@@ -33,6 +33,8 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+
+        'city_id'
     ];
 
     /**
@@ -62,5 +64,10 @@ class User extends Authenticatable
     public function salary()
     {
         return $this->belongsTo(Salary::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }
