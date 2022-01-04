@@ -14,9 +14,12 @@ class UpdateInstitutionsTableV2 extends Migration
     public function up()
     {
         Schema::table('institutions', function (Blueprint $table) {
-            $table->string('variant')->required();
-            $table->string('second_variant')->nullable();
-            
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('clave')->nullable();
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('city_id')->references('id')->on('cities');
         });
     }
 
