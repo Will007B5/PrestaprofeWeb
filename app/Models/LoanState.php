@@ -5,21 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class LoanState extends Model
 {
     use HasFactory;
-
     public $timestamps = false;
-
     protected $fillable = [
-        'name',
-        'zip_code',
-        'municipality_id'
+        'name'
     ];
 
-    public function municipality()
+    public function loans()
     {
-        return $this->belongsTo(Municipality::class);
+        return $this->belongsToMany(Loan::class);
     }
-
 }

@@ -33,7 +33,18 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
-
+        'rfc',
+        'ine',
+        'pay_stub',
+        'selfie',
+        'proof_address',
+        'first_reference_person_name',
+        'first_reference_person_phone',
+        'second_reference_person_name',
+        'second_reference_person_phone',
+        'city_id',
+        'saving_bank_id',
+        'job_id',
         'city_id'
     ];
 
@@ -66,8 +77,28 @@ class User extends Authenticatable
         return $this->belongsTo(Salary::class);
     }
 
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function loans()
+    {
+        $this->hasMany(Loan::class);
+    }
+
+    public function cards()
+    {
+        $this->hasMany(Card::class);
+    }
+
+    public function savingBanks()
+    {
+        $this->hasMany(SavingBank::class);
     }
 }
