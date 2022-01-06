@@ -12,4 +12,9 @@ class LoanState extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function loans()
+    {
+        return $this->belongsToMany(Loan::class);
+    }
 }

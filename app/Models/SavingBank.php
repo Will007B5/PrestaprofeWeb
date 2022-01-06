@@ -12,4 +12,9 @@ class SavingBank extends Model
         'amount',
         'description'
     ];
+
+    public function user()
+    {
+      $this->belongsTo(User::class);
+    }
 }

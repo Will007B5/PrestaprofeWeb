@@ -16,8 +16,9 @@ class CreatePaymentExtensionsTable extends Migration
         Schema::create('payment_extensions', function (Blueprint $table) {
             $table->id();
             $table->timestamp('start')->required();
-            $table->timestamp('end')->required();
-
+            $table->timestamp('end')->nullable();
+            $table->unsignedBigInteger('loan_id');
+            $table->foreign('loan_id')->references('id')->on('loans');
             $table->timestamps();
         });
     }

@@ -13,4 +13,9 @@ class PaymentExtension extends Model
         'start',
         'end'
     ];
+
+    public function loan()
+    {
+       $this->belongsTo(Loan::class);
+    }
 }

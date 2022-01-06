@@ -23,10 +23,10 @@ class CreateLoansTable extends Migration
             $table->timestamp('expired_date')->nullable();
             $table->timestamp('accepted_date')->nullable();
             $table->timestamp('frozen_date')->nullable();
-            $table->unsignedBigInteger('loan_state_id');
-            $table->foreign('loan_state_id')->references('id')->on('loan_states');
             $table->unsignedBigInteger('card_id');
             $table->foreign('card_id')->references('id')->on('cards');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

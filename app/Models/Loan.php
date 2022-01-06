@@ -19,9 +19,29 @@ class Loan extends Model
         'expired_date',
         'accepted_date',
         'frozen_date',
-        'loan_state_id',
         'card_id',
     ];
+
+    public function loanState()
+    {
+        return $this->belongsTo(LoanState::class);
+    }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class);
+    }
+
+    public function extensions()
+    {
+      return $this->hasMany(PaymentExtension::class);
+    }
+
+    public function states()
+    {
+        return $this->belongsToMany(LoanState::class);
+    }
+
 
 
 }

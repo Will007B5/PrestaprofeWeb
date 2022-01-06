@@ -17,6 +17,7 @@ class CreateCardsTable extends Migration
             $table->id();
             $table->string('card_number')->required();
             $table->string('expired_date')->nullable();
+            $table->boolean('active')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

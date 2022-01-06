@@ -23,10 +23,9 @@ class UpdateUsersTableV2 extends Migration
                  $table->string('first_reference_person_phone')->nullable();
                  $table->string('second_reference_person_name')->nullable();
                  $table->string('second_reference_person_phone')->nullable();
+                 $table->boolean('active')->default(0);
                  $table->unsignedBigInteger('city_id');
                  $table->foreign('city_id')->references('id')->on('cities');
-                 $table->unsignedBigInteger('saving_bank_id');
-                 $table->foreign('saving_bank_id')->references('id')->on('saving_banks');
                  $table->unsignedBigInteger('job_id');
                  $table->foreign('job_id')->references('id')->on('jobs');
         });

@@ -11,6 +11,7 @@ class Bank extends Model
     use HasFactory;
     protected $fillable = [
         'amount',
-        'description'
+        'description',
+        'user_id'
     ];
 }

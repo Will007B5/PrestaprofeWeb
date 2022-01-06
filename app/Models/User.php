@@ -77,8 +77,28 @@ class User extends Authenticatable
         return $this->belongsTo(Salary::class);
     }
 
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function loans()
+    {
+        $this->hasMany(Loan::class);
+    }
+
+    public function cards()
+    {
+        $this->hasMany(Card::class);
+    }
+
+    public function savingBanks()
+    {
+        $this->hasMany(SavingBank::class);
     }
 }

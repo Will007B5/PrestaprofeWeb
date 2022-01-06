@@ -17,6 +17,8 @@ class CreateBanksTable extends Migration
             $table->id();
             $table->decimal('amount',9,2)->required();
             $table->string('description')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
