@@ -26,6 +26,13 @@ Route::post('mobilelogin', [AuthController::class, 'mobilelogin']);
 
 Route::resource('institutions', 'Api\InstitutionController');
 Route::resource('salaries', 'Api\SalaryController');
+Route::resource('states', 'Api\StateController');
+Route::resource('municipalities', 'Api\MunicipalityController');
+Route::get('state_municipalities/{state}','Api\MunicipalityController@municipalitiesByState');
+Route::resource('cities', 'Api\CityController');
+Route::get('municipality_cities/{municipality}','Api\CityController@citiesByMunicipality');
+Route::post('import_institutions','Api\InstitutionController@importInstitutions');
+
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
 
