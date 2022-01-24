@@ -8,6 +8,7 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller{
 
@@ -47,31 +48,42 @@ class UserController extends Controller{
         $rules = [
             'name' => 'required|string',
             'last_name' => 'required|string',
-            'birth_date' => 'date_format:Y-m-d',
+            'birth_date' => 'required|date_format:Y-m-d',
             'gender' => 'required|in:Hombre,Mujer',
             'civil_status' => 'required|in:Soltero/a,Casado/a,Divorciado/a,Separacion en proceso judicial,Viudo/a,Concubinato',
-            'curp' => 'required|string|size:13',
-            'address' => 'required|text',
+            'curp' => 'required|string|size:18',
+            'address' => 'required|string',
             //'institution_id',
-            'type',
+            //'type',
             'salary_id' => 'required|exists:salaries,id',
             'phone' => 'required|size:10',
             'email' => 'required|email',
             'password' => 'required|min:8',
             'rfc' => 'required|size:13',
-            'ine' => 'image',
-            'pay_stub' => 'image',
-            'selfie' => 'image',
-            'proof_address' => 'image',
+            'ine' => 'required|mimes:pdf,jpg,jpeg,png',
+            'pay_stub' => 'required|mimes:pdf,jpg,jpeg,png',
+            'selfie' => 'required|image',
+            'proof_address' => 'required|mimes:pdf,jpg,jpeg,png',
             'first_reference_person_name' => 'required|string',
-            'first_reference_person_phone' => 'required|string|size:13',
-            'second_reference_person_name',
-            'second_reference_person_phone',
-            'city_id',
-            'saving_bank_id',
-            'job_id',
-            'city_id',
+            'first_reference_person_phone' => 'required|string|size:10',
+            'second_reference_person_name' => 'required|string',
+            'second_reference_person_phone' => 'required|string|size:10',
+            'city_id' => 'required|exists:cities,id',
+            'job_id' => 'required|exists:jobs,id',
         ];
+
+        $validator = Validator::make($data, $rules);
+        if($validator->fails()){
+            return response($validator->errors(), 422);
+        }else{
+            $data['type'] = 'Cliente';
+            $data['ine'] = $request['ine']->store('clients');
+            $data['pay_stub'] = $request['pay_stub']->store('clients');
+            $data['selfie'] = $request['selfie']->store('clients');
+            $data['proof_address'] = $request['proof_address']->store('clients');
+            $client = User::create($data);
+            return $client;
+        }
     }
 
     //For mobile app call only
