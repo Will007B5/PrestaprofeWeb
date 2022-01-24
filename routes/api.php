@@ -33,6 +33,10 @@ Route::resource('cities', 'Api\CityController');
 Route::get('municipality_cities/{municipality}','Api\CityController@citiesByMunicipality');
 Route::post('import_institutions','Api\InstitutionController@importInstitutions');
 
+Route::resource('jobs', 'JobController');
+Route::get('get-verification-code/{phone}','Api\UserController@getVerificationCode');
+Route::post('create-client','Api\UserController@createClient');
+
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
 
