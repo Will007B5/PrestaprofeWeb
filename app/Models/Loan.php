@@ -20,6 +20,7 @@ class Loan extends Model
         'accepted_date',
         'frozen_date',
         'card_id',
+        'user_id',
     ];
 
     public function loanState()

@@ -81,6 +81,7 @@ class UserController extends Controller{
             $data['pay_stub'] = $request['pay_stub']->store('clients');
             $data['selfie'] = $request['selfie']->store('clients');
             $data['proof_address'] = $request['proof_address']->store('clients');
+            $data['password'] = bcrypt($data['password']);
             $client = User::create($data);
             return $client;
         }
@@ -116,5 +117,12 @@ class UserController extends Controller{
             $code .= mt_rand(0,9);
         }
         return $code;
+    }
+
+    public function changeVerificationPhoneStatus(User $user)
+    {
+        $user->is_phone_verified = 1;
+        $user->save();
+        return response('Phone verification succesfull', 200);
     }
 }

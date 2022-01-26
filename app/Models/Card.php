@@ -13,7 +13,9 @@ class Card extends Model
     protected $fillable = [
         'card_number',
         'expired_date',
-        'user_id'
+        'user_id',
+        'clabe',
+        'active',
     ];
 
     public function user()
