@@ -36,13 +36,19 @@ Route::post('import_institutions','Api\InstitutionController@importInstitutions'
 Route::resource('jobs', 'JobController');
 Route::get('get-verification-code/{phone}','Api\UserController@getVerificationCode');
 Route::post('create-client','Api\UserController@createClient');
+Route::get('change-verification-phone-status','Api\UserController@changeVerificationPhoneStatus');
+
+//CARDS
+
+Route::resource('cards', 'CardController');
+Route::get('my-cards/{user}','CardController@myCards');
 
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
-
+Route::resource('users', 'Api\UserController');
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::resource('users', 'Api\UserController');
+
     Route::resource('roles', 'Api\RoleController');
     // API route for logout user
     Route::post('logout', [AuthController::class, 'logout']);
