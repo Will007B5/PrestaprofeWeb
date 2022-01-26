@@ -44,6 +44,11 @@ Route::resource('cards', 'CardController');
 Route::get('my-cards/{user}','CardController@myCards');
 
 
+//LOANS
+Route::resource('loans', 'LoanController');
+
+
+
 Route::post('importaEstados', [StateController::class, 'importStates']);
 Route::resource('users', 'Api\UserController');
 //Protecting Routes
