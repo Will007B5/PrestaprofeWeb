@@ -36,7 +36,7 @@ Route::post('import_institutions','Api\InstitutionController@importInstitutions'
 Route::resource('jobs', 'JobController');
 Route::get('get-verification-code/{phone}','Api\UserController@getVerificationCode');
 Route::post('create-client','Api\UserController@createClient');
-Route::get('change-verification-phone-status','Api\UserController@changeVerificationPhoneStatus');
+Route::get('change-verification-phone-status/{user}','Api\UserController@changeVerificationPhoneStatus');
 
 //CARDS
 
