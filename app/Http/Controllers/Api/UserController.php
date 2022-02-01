@@ -125,4 +125,28 @@ class UserController extends Controller{
         $user->save();
         return response('Phone verification succesfull', 200);
     }
+
+    public function getClients()
+    {
+        $users = User::where('type','Cliente')->get();
+        return response($users,200);
+    }
+    public function checkClients(Request $rq)
+    {
+        $data=$rq->all();
+
+        $rules=[
+            "clients"=>"required|array",
+            "clients.*"=>"exists:users,id|min:1"
+        ];
+
+        $validator = Validator::make($data, $rules);
+        if($validator->fails()){
+            return response($validator->errors(), 422);
+        }else{
+            User::whereIn('id',$data)->update(["is_admon_verified"=>1]);
+            return response(["message"=>"Actualización exitosa"],200);
+        }
+    }
+    
 }
