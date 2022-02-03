@@ -39,7 +39,7 @@
       </v-data-table>
       <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :disabled="clientsId==0"  small depressed tile color="black" class="white--text" @click="showClient">Verificar</v-btn>
+          <v-btn :disabled="clientsId==0"  small depressed color="black" class="white--text" @click="showClient">Verificar</v-btn>
       </v-card-actions>
     </v-card>
 </template>
