@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Models\User;
 use App\Http\Controllers\Api\StateController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Hash;
 
 /*
@@ -58,3 +59,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // API route for logout user
     Route::post('logout', [AuthController::class, 'logout']);
 });
+
+Route::get('getClients','Api\UserController@getClients');
+Route::post('checkClients','Api\UserController@checkClients');
