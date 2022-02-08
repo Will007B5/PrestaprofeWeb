@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Payment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,8 +16,6 @@ class Loan extends Model
         'amount',
         'payment_schema',
         'application_date',
-        'payment_proof',
-        'expired_date',
         'accepted_date',
         'frozen_date',
         'card_id',
@@ -41,6 +40,9 @@ class Loan extends Model
     public function states()
     {
         return $this->belongsToMany(LoanState::class);
+    }
+    public function payments(){
+      return $this->belongsToMany(Payment::class);
     }
 
 
