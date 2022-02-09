@@ -35,6 +35,7 @@ class User extends Authenticatable
         'password',
         'rfc',
         'ine',
+        'ine_back',
         'pay_stub',
         'selfie',
         'proof_address',

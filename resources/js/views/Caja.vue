@@ -1,41 +1,53 @@
 <template>
     <div>
-        <v-row class="m-1">
-                <v-col cols="12" md="6">
-                    <div class="text-h5 white--text">Monto de dinero en caja</div>
-                    <span class="text-h4 white--text" >$0.00 MXN</span>
+        <v-row class="m-0" style="background: #006a82" justify="space-between">
+                <v-col cols="12" md="6" style="margin: auto">
+                    <div style="margin-left: 2em">
+                        <div class="resized white--text font-weight-bold d-block">Monto de dinero en caja</div>
+                        <div class="resized white--text font-weight-bold d-block" >$0.00 MXN</div>
+                    </div>
+
                 </v-col>
                 <v-col cols="12" md="6">
-                    <div class="d-block d-lg-flex">
+                   <div >
                         <v-text-field
+                            style="min-width: 50%;max-width: 100%"
+                            dense
+                            color="#006a82"
+                            background-color="white"
                             hint="Ingreso de dinero"
                             persistent-hint
                             outlined
-                            class="white--text d-block"
+                            class="white--text d-inline-flex"
                             prepend-inner-icon="mdi-currency-usd"
                         ></v-text-field>
-                        <v-btn
-                            class="d-block m-0 ml-lg-4"
+                            <v-btn
+                            class="white--text d-inline-flex"
                             tile
+                            color="#002b32"
                             depressed
-                            color="primary"
                         >Agregar dinero a caja</v-btn>
                     </div>
-                    <div class="mt-5 d-block d-lg-flex">
+                    <div>
                         <v-text-field
+                        style="min-width: 50%;max-width: 100%"
+                        dense
+                        color="#006a82"
                             hint="Egreso de dinero"
                             persistent-hint
                             outlined
-                            class="white--text d-block"
+                            background-color="white"
+                            class="white--text d-inline-flex"
                             prepend-inner-icon="mdi-currency-usd"
                         ></v-text-field>
-                        <v-btn
-                            class="d-block m-0 ml-lg-4"
+                            <v-btn
+
+                            color="#002b32"
+                            class="d-inline-flex white--text"
                             tile
                             depressed
-                            color="primary"
                         >Retira dinero a caja</v-btn>
-                    </div>
+                </div>
                 </v-col>
             </v-row>
             <v-row>
@@ -66,13 +78,13 @@
                                 </v-menu>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!---->
                     <v-data-table
                         :headers="headers"
                         :search="search"
-                        
+
                         item-key="id">
                     </v-data-table>
                     <!---->
@@ -99,3 +111,13 @@ export default {
     }
 }
 </script>
+
+<style>
+.resized{
+    font-size: 2em;
+}
+
+.v-messages__message{
+    color: white;
+}
+</style>
