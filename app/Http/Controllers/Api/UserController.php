@@ -61,6 +61,7 @@ class UserController extends Controller{
             'password' => 'required|min:8',
             'rfc' => 'required|size:13',
             'ine' => 'required|mimes:pdf,jpg,jpeg,png',
+            'ine_back' => 'required|mimes:pdf,jpg,jpeg,png',
             'pay_stub' => 'required|mimes:pdf,jpg,jpeg,png',
             'selfie' => 'required|image',
             'proof_address' => 'required|mimes:pdf,jpg,jpeg,png',
@@ -148,5 +149,5 @@ class UserController extends Controller{
             return response(["message"=>"Actualización exitosa"],200);
         }
     }
-    
+
 }
