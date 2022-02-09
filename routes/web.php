@@ -18,4 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/healthcheck', function () {
+    return response('Success', 200);
+});
 // Auth::routes();

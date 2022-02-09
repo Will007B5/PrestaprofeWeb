@@ -11,22 +11,16 @@ use Illuminate\Http\Request;
 
 class StateController extends Controller
 {
+    public function index()
+    {
+        return State::all();
+    }
+
     public function importStates(Request $request)
     {
-        // $data = $request->all();
-        // $file = $data['file'];
         ini_set('memory_limit','999999M');
         ini_set('max_execution_time', 7200);
         ini_set('request_terminate_timeout', 7200);
-        // // if($type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'){
-        // //     $inputFileType = 'Xlsx';
-        // // }else{
-        // //     $inputFileType = 'Xls';
-        // // }
-        // //dd($file->getRealPath());
-        // dd($file);
-        // $inputFileName = $file->getRealPath().$file->getClientOriginalName();
-        //dd($inputFileName);
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
         $reader->setReadFilter( new MyReadFilter());
         $reader->setReadDataOnly(true);
@@ -71,16 +65,6 @@ class StateController extends Controller
                         'municipality_id' => $municipality->id
                     ]
                 );
-            //     $cellIterator = $row->getCellIterator();
-            //    $cellIterator->setIterateOnlyExistingCells(TRUE);
-            //     foreach ($cellIterator as $cell) {
-            //         if($cell->getColumn() == 'E'){
-            //             $state = State::firstOrCreate(
-            //                 ['name'=>$cell->getValue()],
-            //                 []);
-            //         }
-
-            //     }
 
             }
 

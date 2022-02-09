@@ -40,4 +40,10 @@ class InstitutionController extends Controller
     {
         return $this->institutionService->delete($institution);
     }
+
+    public function importInstitutions(Request $request)
+    {
+        $file = $request['file'];
+        return $this->institutionService->importInstitutions($file);
+    }
 }

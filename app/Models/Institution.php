@@ -10,11 +10,21 @@ class Institution extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'address',
+        'email',
+        'phone',
+        'clave',
+        'city_id'
     ];
 
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

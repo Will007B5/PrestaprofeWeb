@@ -11,6 +11,7 @@ import Vue from 'vue';
 import vuetify from './plugins/vuetify'
 import App from './App.vue';
 // import VueAxios from 'vue-axios';
+import store from './store/store';
 import router from "./router";
 // import axios from 'axios';
 // import { routes } from './routes';
@@ -43,7 +44,11 @@ const app = new Vue({
     el: '#app',
     vuetify,
     router,
+    store,
     components: {
         App,
     },
+    async beforeCreate(){
+        this.$store.dispatch('loadStoredState');
+    }
 });

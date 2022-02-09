@@ -84,9 +84,21 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            if (Hash::check($request->password, $user->password)) {
+            if($user->is_phone_verified == 0 || $user->is_phone_verified == false){
+                $response = ["message" => "Número de teléfono no verificado."];
+                return response($response, 422);
+            }
+            //else if($user->is_admon_verified == 0 || $user->is_admon_verified == false){
+             //   $response = ["message" => "Usuario no aprobado."];
+             //   return response($response, 422);
+            //}
+            //else if($user->active == 0 || $user->active == false){
+            //    $response = ["message" => "Usuario no activo."];
+            //    return response($response, 422);
+            //}
+            else if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken($request->device_name)->plainTextToken;
-                $response = ['token' => $token];
+                $response = ['user' => $user,'token' => $token];
                 return response($response, 200);
             } else {
                 $response = ["password" => "Contraseña incorrecta"];

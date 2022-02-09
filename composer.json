@@ -15,7 +15,8 @@
         "laravel/ui": "^3.3",
         "nexmo/laravel": "^2.4",
         "phpoffice/phpspreadsheet": "^1.20",
-        "spatie/laravel-permission": "^5.3"
+        "spatie/laravel-permission": "^5.3",
+        "aws/aws-sdk-php-laravel": "~3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -60,7 +61,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

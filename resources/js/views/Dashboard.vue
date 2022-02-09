@@ -14,8 +14,8 @@
 
         <div>
             <v-row no-gutters>
-                <v-icon size="30" left>
-                  mdi-home
+                <v-icon color="#f0d042" size="40" left>
+                  mdi-home-account
                 </v-icon>
                 <div>
                     <div style="font-size: 1.09rem" class="font-weight-bold">José María</div>
@@ -39,55 +39,55 @@
             nav
             dense
           >
-            <v-list-item link>
+            <v-list-item >
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Inicio</v-list-item-title>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Caja'}">
               <v-list-item-icon>
                 <v-icon>mdi-piggy-bank</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Caja</v-list-item-title>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Préstamos'}">
               <v-list-item-icon>
                 <v-icon>mdi-cash-register</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Préstamos</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Clientes'}">
               <v-list-item-icon>
                 <v-icon>mdi-badge-account</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Clientes</v-list-item-title>
+              <v-list-item-title >Clientes</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Cobros'}">
               <v-list-item-icon>
                 <v-icon>mdi-hand-coin</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Cobros</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Atrasos'}">
               <v-list-item-icon>
                 <v-icon>mdi-history</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Atrasos</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Reportes'}">
               <v-list-item-icon>
                 <v-icon>mdi-file-chart</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Reportes</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item active-class="active-yellow" link :to="{name: 'Usuarios'}">
               <v-list-item-icon>
                 <v-icon>mdi-account-group</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Usuarios</v-list-item-title>
             </v-list-item>
-                        <v-list-item link>
+            <v-list-item link >
               <v-list-item-icon>
                 <v-icon>mdi-logout-variant</v-icon>
               </v-list-item-icon>
@@ -103,10 +103,10 @@
               height="51px"
             >
                 <v-row no-gutters align="center" >
-                    <v-icon size="28" left>
+                    <v-icon color="#f0d042" size="28" left>
                       mdi-home
                     </v-icon>
-                    <div class="font-weight-bold">INICIO</div>
+                    <div class="font-weight-bold">{{$route.name.toUpperCase()}}</div>
                 </v-row>
             </v-app-bar>
             <v-sheet
@@ -114,7 +114,9 @@
               elevation="0"
               height="27vh"
               width="100%"
-            ></v-sheet>
+            >
+            <router-view></router-view>
+            </v-sheet>
         </v-main>
     </div>
 </template>
@@ -126,5 +128,15 @@ export default {
 </script>
 
 <style>
+.active-yellow{
+    text-decoration: none !important;
+}
 
+.active-yellow > div{
+    color: #f0d042 !important;
+    font-weight: bolder !important;
+}
+.v-list-item{
+    text-decoration: none !important;
+}
 </style>

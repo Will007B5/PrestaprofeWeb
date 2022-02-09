@@ -27,14 +27,28 @@ class User extends Authenticatable
         'civil_status',
         'curp',
         'address',
-        'institution_id',
+        //'institution_id',
         'type',
         'salary_id',
         'phone',
         'email',
         'password',
-
-        'city_id'
+        'rfc',
+        'ine',
+        'ine_back',
+        'pay_stub',
+        'selfie',
+        'proof_address',
+        'first_reference_person_name',
+        'first_reference_person_phone',
+        'second_reference_person_name',
+        'second_reference_person_phone',
+        'city_id',
+        'saving_bank_id',
+        'job_id',
+        'city_id',
+        'is_phone_verified',
+        'is_admon_verified',
     ];
 
     /**
@@ -66,8 +80,28 @@ class User extends Authenticatable
         return $this->belongsTo(Salary::class);
     }
 
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class);
+    }
+
+    public function savingBanks()
+    {
+        return $this->hasMany(SavingBank::class);
     }
 }
