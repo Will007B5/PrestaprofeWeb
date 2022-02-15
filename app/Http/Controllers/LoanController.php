@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Loan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\LoanResource;
+use App\Models\User;
 
 class LoanController extends Controller
 {
     public function index()
     {
-        return Loan::all();
+        return LoanResource::collection(Loan::all());
     }
     public function store(Request $request)
     {
@@ -44,7 +46,7 @@ class LoanController extends Controller
             $data['application_date'] = $currenDate;
             $data['accepted_date'] = $currenDate;
             $loan = loan::create($data);
-            return $loan;
+            return new LoanResource($loan);
         }
     }
 
@@ -64,12 +66,16 @@ class LoanController extends Controller
         }else{
 
             $loan->update($data);
-            return $loan;
+            return new LoanResource($loan);
         }
     }
 
     public function show(Loan $loan)
     {
        return $loan;
+    }
+
+    public function myLoans(User $user){
+        return LoanResource::collection($user->loans);
     }
 }

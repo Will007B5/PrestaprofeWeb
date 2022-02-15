@@ -61,6 +61,7 @@ class UserController extends Controller{
             'password' => 'required|min:8',
             'rfc' => 'required|size:13',
             'ine' => 'required|mimes:pdf,jpg,jpeg,png',
+            'ine_back' => 'required|mimes:pdf,jpg,jpeg,png',
             'pay_stub' => 'required|mimes:pdf,jpg,jpeg,png',
             'selfie' => 'required|image',
             'proof_address' => 'required|mimes:pdf,jpg,jpeg,png',
@@ -78,6 +79,7 @@ class UserController extends Controller{
         }else{
             $data['type'] = 'Cliente';
             $data['ine'] = $request['ine']->store('clients');
+            $data['ine_back'] = $request['ine_back']->store('clients');
             $data['pay_stub'] = $request['pay_stub']->store('clients');
             $data['selfie'] = $request['selfie']->store('clients');
             $data['proof_address'] = $request['proof_address']->store('clients');
@@ -148,5 +150,5 @@ class UserController extends Controller{
             return response(["message"=>"Actualización exitosa"],200);
         }
     }
-    
+
 }

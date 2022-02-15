@@ -47,7 +47,7 @@ Route::get('my-cards/{user}','CardController@myCards');
 
 //LOANS
 Route::resource('loans', 'LoanController');
-
+Route::get('my-loans/{user}','LoanController@myLoans');
 
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
