@@ -1,40 +1,42 @@
 <template>
-    <v-card class="mx-4">
+    <div>
+      <v-card class="mx-4">
         <v-card-title>
             <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Buscar..."
-          single-line
-          hide-details
-          solo-inverted
-        ></v-text-field>
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Buscar..."
+              single-line
+              hide-details
+              solo-inverted>
+            </v-text-field>
         </v-card-title>
-         <v-data-table
-        :headers="headers"
-        :search="search"
-        :items="clients"
-        v-model="selectedClients"
-        item-key="id"
-        show-select>
-            <template v-slot:item.accion="{ item }">
-        <v-icon
-          small
-          class="mr-2" 
-        >
-          mdi-eye
-        </v-icon>
-        <v-icon
-          small
-          class="mr-2"
-        >
-          mdi-cancel
-        </v-icon>
-        <v-icon
-          small
-        >
-          mdi-delete
-        </v-icon>
+        <v-data-table
+          :headers="headers"
+          :search="search"
+          :items="clients"
+          v-model="selectedClients"
+          item-key="id"
+          show-select>
+          <template v-slot:item.accion="{ item }">
+              <v-icon
+                small
+                class="mr-2" 
+                @click="getInfoDetail(item)"
+              >
+                mdi-eye
+              </v-icon>
+              <v-icon
+                small
+                class="mr-2"
+              >
+                mdi-cancel
+              </v-icon>
+              <v-icon
+                small
+              >
+                mdi-delete
+              </v-icon>
       </template>
       </v-data-table>
       <v-card-actions>
@@ -42,10 +44,11 @@
           <v-btn :disabled="clientsId==0"  small depressed color="black" class="white--text" @click="showClient">Verificar</v-btn>
       </v-card-actions>
     </v-card>
+    </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapMutations, mapState} from 'vuex';
 
 export default {
     data(){
@@ -88,7 +91,13 @@ export default {
             console.log(this.clientsId.lenght);
             this.$store.dispatch('checkClients',this.selectedClients.map(item=>item.id))
             .then((response)=>{this.$store.dispatch('getClients')});
-        }
+        },
+        getInfoDetail(item){
+            console.log(item.id);
+            this.$store.dispatch('getCliente',item.id);
+            this.openDialog();
+        },
+        ...mapMutations(['openDialog'])
     }
 }
 </script>

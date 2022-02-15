@@ -130,7 +130,7 @@ class UserController extends Controller{
 
     public function getClients()
     {
-        $users = User::where('type','Cliente')->get();
+        $users = User::select('id','name','last_name','is_admon_verified')->where('type','Cliente')->get();
         return response($users,200);
     }
     public function checkClients(Request $rq)
