@@ -64,6 +64,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -109,7 +112,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: {
+  methods: _objectSpread({
     showClient: function showClient() {
       var _this = this;
 
@@ -119,8 +122,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })).then(function (response) {
         _this.$store.dispatch('getClients');
       });
+    },
+    getInfoDetail: function getInfoDetail(item) {
+      console.log(item.id);
+      this.$store.dispatch('getCliente', item.id);
+      this.openDialog();
     }
-  }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['openDialog']))
 });
 
 /***/ }),
@@ -210,88 +218,106 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
-    { staticClass: "mx-4" },
+    "div",
     [
       _c(
-        "v-card-title",
+        "v-card",
+        { staticClass: "mx-4" },
         [
-          _c("v-text-field", {
+          _c(
+            "v-card-title",
+            [
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "mdi-magnify",
+                  label: "Buscar...",
+                  "single-line": "",
+                  "hide-details": "",
+                  "solo-inverted": "",
+                },
+                model: {
+                  value: _vm.search,
+                  callback: function ($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search",
+                },
+              }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-data-table", {
             attrs: {
-              "append-icon": "mdi-magnify",
-              label: "Buscar...",
-              "single-line": "",
-              "hide-details": "",
-              "solo-inverted": "",
+              headers: _vm.headers,
+              search: _vm.search,
+              items: _vm.clients,
+              "item-key": "id",
+              "show-select": "",
             },
-            model: {
-              value: _vm.search,
-              callback: function ($$v) {
-                _vm.search = $$v
+            scopedSlots: _vm._u([
+              {
+                key: "item.accion",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-icon",
+                      {
+                        staticClass: "mr-2",
+                        attrs: { small: "" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.getInfoDetail(item)
+                          },
+                        },
+                      },
+                      [_vm._v("\n            mdi-eye\n          ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-icon",
+                      { staticClass: "mr-2", attrs: { small: "" } },
+                      [_vm._v("\n            mdi-cancel\n          ")]
+                    ),
+                    _vm._v(" "),
+                    _c("v-icon", { attrs: { small: "" } }, [
+                      _vm._v("\n            mdi-delete\n          "),
+                    ]),
+                  ]
+                },
               },
-              expression: "search",
+            ]),
+            model: {
+              value: _vm.selectedClients,
+              callback: function ($$v) {
+                _vm.selectedClients = $$v
+              },
+              expression: "selectedClients",
             },
           }),
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          headers: _vm.headers,
-          search: _vm.search,
-          items: _vm.clients,
-          "item-key": "id",
-          "show-select": "",
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "item.accion",
-            fn: function (ref) {
-              var item = ref.item
-              return [
-                _c("v-icon", { staticClass: "mr-2", attrs: { small: "" } }, [
-                  _vm._v("\n      mdi-eye\n    "),
-                ]),
-                _vm._v(" "),
-                _c("v-icon", { staticClass: "mr-2", attrs: { small: "" } }, [
-                  _vm._v("\n      mdi-cancel\n    "),
-                ]),
-                _vm._v(" "),
-                _c("v-icon", { attrs: { small: "" } }, [
-                  _vm._v("\n      mdi-delete\n    "),
-                ]),
-              ]
-            },
-          },
-        ]),
-        model: {
-          value: _vm.selectedClients,
-          callback: function ($$v) {
-            _vm.selectedClients = $$v
-          },
-          expression: "selectedClients",
-        },
-      }),
-      _vm._v(" "),
-      _c(
-        "v-card-actions",
-        [
-          _c("v-spacer"),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              staticClass: "white--text",
-              attrs: {
-                disabled: _vm.clientsId == 0,
-                small: "",
-                depressed: "",
-                color: "black",
-              },
-              on: { click: _vm.showClient },
-            },
-            [_vm._v("Verificar")]
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "white--text",
+                  attrs: {
+                    disabled: _vm.clientsId == 0,
+                    small: "",
+                    depressed: "",
+                    color: "black",
+                  },
+                  on: { click: _vm.showClient },
+                },
+                [_vm._v("Verificar")]
+              ),
+            ],
+            1
           ),
         ],
         1

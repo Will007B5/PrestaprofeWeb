@@ -53,7 +53,7 @@ const routes = [
             {
                 path: 'users',
                 name: 'Usuarios',
-                component: () => import('./views/Clients.vue')
+                component: () => import('./views/Usuarios.vue')
             },
         ]
     },

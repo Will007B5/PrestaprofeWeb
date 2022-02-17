@@ -19,7 +19,9 @@ class UserRepository{
      */
     public function getAll()
     {
-        return $this->user::all();
+        return $this->user::select('ro.name as role','users.id','users.name','users.last_name','users.email','users.active')
+        ->rightJoin('model_has_roles as mhr', 'users.id','=','mhr.model_id')
+        ->join('roles as ro','ro.id','=','mhr.role_id')->get();
     }
 
     /**
@@ -40,8 +42,6 @@ class UserRepository{
     public function create($user)
     {
         $returnedUser = $this->user::create($user);
-        $returnedUser->assignRole($user['role']);
-        $returnedUser->save();
         return $returnedUser;
     }
 

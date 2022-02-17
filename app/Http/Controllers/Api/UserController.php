@@ -151,4 +151,10 @@ class UserController extends Controller{
         }
     }
 
+    public function changeStatusUser(User $user){
+        $user->active=($user->active==1)?0:1;
+        $user->save();
+        return $user->active;
+    }
+
 }

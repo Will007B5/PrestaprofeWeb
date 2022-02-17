@@ -25,6 +25,7 @@ const clientsStore = {
         closeDialogImagen(state){
             state.dialogImagen=false;
         }
+
     },
 
     actions: {
@@ -49,7 +50,6 @@ const clientsStore = {
         getCliente: async function({commit},id){
             try{
                 const response = await axios.get("/api/users/"+id);
-                console.log(response.data);
                 commit('getClient',response.data);
             }catch(error){
 

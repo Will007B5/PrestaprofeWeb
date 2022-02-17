@@ -20,7 +20,7 @@ class RoleRepository {
      */
     public function getAll()
     {
-        return $this->role::all();
+        return $this->role::select('name')->get();
     }
 
     /**

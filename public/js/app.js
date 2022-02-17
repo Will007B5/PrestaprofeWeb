@@ -2220,7 +2220,6 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var routes = [{
   path: "/",
-  name: 'Inicio',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_views_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Dashboard.vue */ "./resources/js/views/Dashboard.vue"));
   },
@@ -2228,6 +2227,12 @@ var routes = [{
     requiresAuth: true
   },
   children: [{
+    name: 'Inicio',
+    path: '',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_Inicio_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Inicio */ "./resources/js/views/Inicio.vue"));
+    }
+  }, {
     path: 'bank',
     name: 'Caja',
     component: function component() {
@@ -2267,7 +2272,7 @@ var routes = [{
     path: 'users',
     name: 'Usuarios',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ "resources_js_views_Clients_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Clients.vue */ "./resources/js/views/Clients.vue"));
+      return __webpack_require__.e(/*! import() */ "resources_js_views_Usuarios_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Usuarios.vue */ "./resources/js/views/Usuarios.vue"));
     }
   }]
 }, {
@@ -2326,11 +2331,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var clientsStore = {
   state: {
-    clients: []
+    clients: [],
+    dialog: false,
+    client: null,
+    dialogImagen: true,
+    srcDialogoImagen: 'clients/imageNoFound.png'
   },
   mutations: {
     setClients: function setClients(state, clients) {
       state.clients = clients;
+    },
+    openDialog: function openDialog(state) {
+      state.dialog = !state.dialog;
+    },
+    getClient: function getClient(state, client) {
+      state.client = client;
+    },
+    openDialogImagen: function openDialogImagen(state) {
+      state.dialogImagen = !state.dialogImagen;
+      state.srcDialogoImagen = state.client.ine;
+    },
+    closeDialogImagen: function closeDialogImagen(state) {
+      state.dialogImagen = false;
     }
   },
   actions: {
@@ -2344,7 +2366,7 @@ var clientsStore = {
                 commit = _ref.commit;
                 _context.prev = 1;
                 _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/api/getClients");
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/getClients");
 
               case 4:
                 response = _context.sent;
@@ -2380,7 +2402,7 @@ var clientsStore = {
                 commit = _ref2.commit;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/api/checkClients", {
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/checkClients", {
                   clients: clients
                 });
 
@@ -2406,6 +2428,42 @@ var clientsStore = {
       }
 
       return checkClients;
+    }(),
+    getCliente: function () {
+      var _getCliente = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(_ref3, id) {
+        var commit, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                commit = _ref3.commit;
+                _context3.prev = 1;
+                _context3.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/users/" + id);
+
+              case 4:
+                response = _context3.sent;
+                commit('getClient', response.data);
+                _context3.next = 10;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](1);
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[1, 8]]);
+      }));
+
+      function getCliente(_x4, _x5) {
+        return _getCliente.apply(this, arguments);
+      }
+
+      return getCliente;
     }()
   }
 };
@@ -2524,23 +2582,146 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _loginModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loginModule */ "./resources/js/store/loginModule.js");
 /* harmony import */ var _clientsStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./clientsStore */ "./resources/js/store/clientsStore.js");
+/* harmony import */ var _usersStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./usersStore */ "./resources/js/store/usersStore.js");
 
  //MODULOS
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_3__["default"].Store({
+
+vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
   modules: {
     loginModule: _loginModule__WEBPACK_IMPORTED_MODULE_0__["default"],
-    clientsStore: _clientsStore__WEBPACK_IMPORTED_MODULE_1__["default"]
+    clientsStore: _clientsStore__WEBPACK_IMPORTED_MODULE_1__["default"],
+    usersStore: _usersStore__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/usersStore.js":
+/*!******************************************!*\
+  !*** ./resources/js/store/usersStore.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var usersStore = {
+  state: {
+    usuarios: []
+  },
+  mutations: {
+    setUsuarios: function setUsuarios(state, usuarios) {
+      state.usuarios = usuarios;
+    },
+    setStatusUser: function setStatusUser(state, data) {
+      var index = state.usuarios.map(function (usuario) {
+        return usuario.id;
+      }).indexOf(data.id);
+      state.usuarios[index].active = data.active;
+    }
+  },
+  actions: {
+    getUsuarios: function () {
+      var _getUsuarios = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref) {
+        var commit, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                commit = _ref.commit;
+                _context.prev = 1;
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/users");
+
+              case 4:
+                response = _context.sent;
+                commit('setUsuarios', response.data);
+                _context.next = 10;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](1);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[1, 8]]);
+      }));
+
+      function getUsuarios(_x) {
+        return _getUsuarios.apply(this, arguments);
+      }
+
+      return getUsuarios;
+    }(),
+    changeStatusUser: function () {
+      var _changeStatusUser = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(_ref2, id, index) {
+        var commit, response, datos;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/changeStatusUser/" + id);
+
+              case 4:
+                response = _context2.sent;
+                datos = {
+                  active: response.data,
+                  id: id
+                };
+                commit('setStatusUser', datos);
+                _context2.next = 11;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](1);
+
+              case 11:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 9]]);
+      }));
+
+      function changeStatusUser(_x2, _x3, _x4) {
+        return _changeStatusUser.apply(this, arguments);
+      }
+
+      return changeStatusUser;
+    }()
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (usersStore);
 
 /***/ }),
 
@@ -67270,7 +67451,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_Dashboard_vue":1,"resources_js_views_Caja_vue":1,"resources_js_views_Prestamos_vue":1,"resources_js_views_Clients_vue":1,"resources_js_views_Login_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_Dashboard_vue":1,"resources_js_views_Inicio_vue":1,"resources_js_views_Caja_vue":1,"resources_js_views_Prestamos_vue":1,"resources_js_views_Clients_vue":1,"resources_js_views_Usuarios_vue":1,"resources_js_views_Login_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
