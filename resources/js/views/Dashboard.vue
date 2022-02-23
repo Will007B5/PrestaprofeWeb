@@ -39,7 +39,7 @@
             nav
             dense
           >
-            <v-list-item >
+            <v-list-item link :to="{name: 'Inicio'}">
               <v-list-item-icon>
                 <v-icon>mdi-home</v-icon>
               </v-list-item-icon>
@@ -118,16 +118,21 @@
             <router-view></router-view>
             </v-sheet>
         </v-main>
+        <InfoUser></InfoUser>
     </div>
 </template>
 
 <script>
+import InfoUser from '../components/InfoUser.vue'
 export default {
-
+  components:{
+    InfoUser
+  }
 }
 </script>
 
 <style>
+InfoUser
 .active-yellow{
     text-decoration: none !important;
 }

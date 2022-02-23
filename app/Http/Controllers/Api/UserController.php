@@ -130,7 +130,7 @@ class UserController extends Controller{
 
     public function getClients()
     {
-        $users = User::where('type','Cliente')->get();
+        $users = User::select('id','name','last_name','is_admon_verified')->where('type','Cliente')->get();
         return response($users,200);
     }
     public function checkClients(Request $rq)
@@ -149,6 +149,12 @@ class UserController extends Controller{
             User::whereIn('id',$data)->update(["is_admon_verified"=>1]);
             return response(["message"=>"Actualización exitosa"],200);
         }
+    }
+
+    public function changeStatusUser(User $user){
+        $user->active=($user->active==1)?0:1;
+        $user->save();
+        return $user->active;
     }
 
 }

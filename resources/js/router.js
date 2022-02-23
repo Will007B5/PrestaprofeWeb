@@ -9,12 +9,16 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: "/",
-        name: 'Inicio',
         component: () => import('./views/Dashboard.vue'),
         meta: {
             requiresAuth: true,
         },
         children: [
+            {
+                name: 'Inicio',
+                path: '',
+                component:()=>import('./views/Inicio')
+            },
             {
                 path: 'bank',
                 name: 'Caja',
@@ -49,7 +53,7 @@ const routes = [
             {
                 path: 'users',
                 name: 'Usuarios',
-                component: () => import('./views/Clients.vue')
+                component: () => import('./views/Usuarios.vue')
             },
         ]
     },

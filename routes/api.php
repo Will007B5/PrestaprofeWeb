@@ -55,10 +55,14 @@ Route::resource('users', 'Api\UserController');
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('roles', 'Api\RoleController');
+    
     // API route for logout user
     Route::post('logout', [AuthController::class, 'logout']);
 });
+Route::resource('roles', 'Api\RoleController');
 
 Route::get('getClients','Api\UserController@getClients');
 Route::post('checkClients','Api\UserController@checkClients');
+
+//Users
+Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
