@@ -65,10 +65,16 @@ class UserService {
             // Mail::to($user->email)->send(new UserSaved($user));
             $user->password = bcrypt($user->password);
 
-            $user->save();
+            //$user->save();
             //$user->roles()->sync($request->get('roleIds'));
 
-            return $this->userRepository->create($data);
+            $savedUser = $this->userRepository->create($user);
+            return ['id'=>$savedUser->id,
+                    'name'=>$savedUser->name,
+                    'last_name'=>$savedUser->last_name,
+                    'email'=>$savedUser->email,
+                    'role'=>$savedUser->roles->first()->name,
+                    'active'=>$savedUser->active];
         }
     }
 
@@ -77,16 +83,16 @@ class UserService {
         $rules =[
             'name' => 'string|max:255',
             'last_name' => 'string|max:255',
-            'birth_date' => 'date',
-            'gender' => 'in:Hombre,Mujer',
-            'civil_status' => 'in:Soltero/a,Casado/a,Divorciado/a,Separacion en proceso judicial,Viudo/a,Concubinato',
-            'curp' => 'size:13',
-            'address' => 'max:255',
-            'institution_id' => 'exists:institutions,id',
-            'type' => 'string',
-            'salary_id' => 'exists:salaries,id',
-            'phone' => 'string|max:15',
-            'email' => 'string|email|max:255|unique:users',
+            //'birth_date' => 'date',
+            //'gender' => 'in:Hombre,Mujer',
+            //'civil_status' => 'in:Soltero/a,Casado/a,Divorciado/a,Separacion en proceso judicial,Viudo/a,Concubinato',
+            //'curp' => 'size:13',
+            //'address' => 'max:255',
+            //'institution_id' => 'exists:institutions,id',
+            //'type' => 'string',
+            //'salary_id' => 'exists:salaries,id',
+            //'phone' => 'string|max:15',
+            'email' => 'string|email|max:255|unique:users,email,'.$user->id,
             'role' => 'exists:roles,name'
         ];
 
@@ -97,8 +103,14 @@ class UserService {
             return response($validator->errors(),422);
 
         }else{
+            $user->syncRoles($data['role']);
             if ($this->userRepository->update($data, $user)) {
-                return $user;
+                return ['id'=>$user->id,
+                    'name'=>$user->name,
+                    'last_name'=>$user->last_name,
+                    'email'=>$user->email,
+                    'role'=>$user->roles->first()->name,
+                    'active'=>$user->active];
             }
             else{
 

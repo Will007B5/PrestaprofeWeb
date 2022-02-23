@@ -36,13 +36,13 @@ class UserRepository{
 
     /**
      * Agrega y retorna un usuario
-     * @param Array $user
+     * @param User $user
      * @return User
      */
-    public function create($user)
+    public function create(User $user)
     {
-        $returnedUser = $this->user::create($user);
-        return $returnedUser;
+        $user->save();
+        return $user;
     }
 
     /**
