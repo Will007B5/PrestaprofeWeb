@@ -49,6 +49,9 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { logIn } from '../utils/auth';
+
 export default {
     data(){
         return{
@@ -59,8 +62,8 @@ export default {
         }
     },
     methods: {
-        intentLogin(){
-            this.isLoadingButton = true;
+        intentLogin: async function(){
+            /*this.isLoadingButton = true;
 
             setTimeout(() => {
                 if(this.password == 'prestaprofe'){
@@ -71,8 +74,24 @@ export default {
                     this.passwordError = 'Contraseña incorrecta'
                     this.isLoadingButton = false;
                 }
-            }, 2000);
+            }, 2000);*/
+            try {
+                await axios.get('/sanctum/csrf-cookie');
+                await axios.post("/login",{
+                    email: this.email,
+                    password: this.password
+                });
+                logIn();
+                this.$store.dispatch('login');
+                this.$store.dispatch('loadUser');
+                this.$router.push({name: 'Inicio'});
+            } catch (error) {
+                
+            }
         }
+    },
+    async beforeCreate(){
+       
     }
 }
 </script>

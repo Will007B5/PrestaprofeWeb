@@ -137,7 +137,6 @@ export default {
             client:state=>state.clientsStore.client
         }),
         getDomain(){
-            console.log(window.location.origin);
             return window.location.origin
         }
     },
@@ -148,12 +147,10 @@ export default {
             this.isShowDialog=true;
         },
         closeDialog: function(){
-            console.log(this.isShowDialog);
             this.isShowDialog=false;
         }
     },
     mounted: function(){
-        console.log(window)
     }
 }
 </script>

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserSaved;
 
 class UserService {
 
@@ -56,13 +58,13 @@ class UserService {
         }else{
             $pass = $this->make_password();
 
-            $data['password'] = Hash::make($pass);
+            $data['password'] =$pass;
 
             $user = $this->user->make($data);
             //dd($user);
             $user->assignRole($data['role']);
 
-            // Mail::to($user->email)->send(new UserSaved($user));
+            Mail::to($user->email)->send(new UserSaved($user));
             $user->password = bcrypt($user->password);
 
             //$user->save();

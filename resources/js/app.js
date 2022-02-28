@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-// require('./bootstrap');
+require('./bootstrap');
 
 window.Vue = require('vue').default;
 import Vue from 'vue';
@@ -40,6 +40,23 @@ import router from "./router";
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+window.axios.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        if(401 == error.response.status){
+            router.push({name: 'login'}).then(()=>{
+                store.dispatch("logout");
+            }).catch(err => {
+                
+            });
+        }
+        return Promise.reject(error);
+    }
+);
+
 const app = new Vue({
     el: '#app',
     vuetify,
@@ -51,5 +68,6 @@ const app = new Vue({
     },
     async beforeCreate(){
         this.$store.dispatch('loadStoredState');
+        this.$store.dispatch('loadUser');
     }
 });

@@ -24,7 +24,7 @@ class AuthController extends Controller
             'civil_status' => 'required|in:Soltero/a,Casado/a,Divorciado/a,Separacion en proceso judicial,Viudo/a,Concubinato',
             'curp' => 'string|size:13',
             'address' => 'required|max:255',
-            'institution_id' => 'required|exists:institutions,id',
+            //'institution_id' => 'required|exists:institutions,id',
             'type' => 'required|string',
             'salary_id' => 'required|exists:salaries,id',
             'phone' => 'required|string|max:15',
@@ -55,8 +55,9 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = ['token' => $token];
+                $token = $user->createToken('Laravel Password Grant Client')->plainTextToken;
+                $response = ['token' => $token,
+                            ];
                 return response($response, 200);
             } else {
                 $response = ["password" => "Contraseña incorrecta"];

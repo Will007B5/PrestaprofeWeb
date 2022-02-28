@@ -1,4 +1,5 @@
 import axios  from 'axios';
+import { reject } from 'lodash';
 const usersStore={
     state:{
         usuarios: [],
@@ -54,7 +55,7 @@ const usersStore={
                 const response = await axios.get("/api/roles");
                 commit('setRoles',response.data);
             }catch(error){
-                
+                reject(error);
             }
         },
         saveUser: async function({commit}, user){
