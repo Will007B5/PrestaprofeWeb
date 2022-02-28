@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller{
 
@@ -156,5 +157,14 @@ class UserController extends Controller{
         $user->save();
         return $user->active;
     }
+
+    public function user(){
+        return DB::table('users')->select('ro.name as role','users.id','users.name','users.last_name','users.email','users.active')
+        ->join('model_has_roles as mhr', 'users.id','=','mhr.model_id')
+        ->join('roles as ro','ro.id','=','mhr.role_id')
+        ->where('users.id',auth()->user()->id)->first();
+    }
+
+    
 
 }

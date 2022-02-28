@@ -12,16 +12,16 @@
 
         <v-spacer></v-spacer>
 
-        <div>
-            <v-row no-gutters>
+        <div class="d-flex">
+            
                 <v-icon color="#f0d042" size="40" left>
                   mdi-home-account
                 </v-icon>
                 <div>
-                    <div style="font-size: 1.09rem" class="font-weight-bold">José María</div>
-                    <div style="font-size: 0.67rem">Administrador</div>
+                    <div style="font-size: 1.09rem" class="font-weight-bold">{{user.name+" "+user.last_name}}</div>
+                    <div style="font-size: 0.67rem">{{user.role}}</div>
                 </div>
-            </v-row>
+            
         </div>
 
 
@@ -87,7 +87,7 @@
               </v-list-item-icon>
               <v-list-item-title>Usuarios</v-list-item-title>
             </v-list-item>
-            <v-list-item link >
+            <v-list-item @click="logOut" >
               <v-list-item-icon>
                 <v-icon>mdi-logout-variant</v-icon>
               </v-list-item-icon>
@@ -97,24 +97,18 @@
         </v-navigation-drawer>
         <v-main>
             <v-app-bar
-              color="#212121"
-              dark
-              flat
-              height="51px"
-            >
-                <v-row no-gutters align="center" >
-                    <v-icon color="#f0d042" size="28" left>
-                      mdi-home
-                    </v-icon>
-                    <div class="font-weight-bold">{{$route.name.toUpperCase()}}</div>
-                </v-row>
+            color="#212121"
+            dark
+            flat
+            height="51px">
+              <v-icon color="#f0d042" size="28" left>mdi-home</v-icon>
+              <div class="font-weight-bold">{{$route.name.toUpperCase()}}</div>
             </v-app-bar>
             <v-sheet
               color="#006a82"
               elevation="0"
               height="27vh"
-              width="100%"
-            >
+              width="100%">
             <router-view></router-view>
             </v-sheet>
         </v-main>
@@ -123,8 +117,25 @@
 </template>
 
 <script>
-import InfoUser from '../components/InfoUser.vue'
+import InfoUser from '../components/InfoUser.vue';
+import {mapState} from 'vuex';
 export default {
+  computed:{
+    ...mapState({
+      user: state=>state.loginModule.user
+    })
+  },
+  methods:{
+    async logOut(){
+      try {
+        axios.post("/logout");
+        this.$store.dispatch("logout");
+      } catch (error) {
+        this.$store.dispatch("logout");
+      }
+      this.$router.push({name: 'login'});
+    }
+  },
   components:{
     InfoUser
   }
@@ -132,7 +143,6 @@ export default {
 </script>
 
 <style>
-InfoUser
 .active-yellow{
     text-decoration: none !important;
 }

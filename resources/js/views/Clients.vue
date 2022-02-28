@@ -88,12 +88,10 @@ export default {
     },
     methods:{
         showClient(){
-            console.log(this.clientsId.lenght);
             this.$store.dispatch('checkClients',this.selectedClients.map(item=>item.id))
             .then((response)=>{this.$store.dispatch('getClients')});
         },
         getInfoDetail(item){
-            console.log(item.id);
             this.$store.dispatch('getCliente',item.id);
             this.openDialog();
         },

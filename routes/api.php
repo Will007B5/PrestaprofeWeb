@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Prueba;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 //API route for register new user
 Route::post('register', [AuthController::class, 'register']);
 //API route for login user
@@ -51,18 +54,28 @@ Route::get('my-loans/{user}','LoanController@myLoans');
 
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
-Route::resource('users', 'Api\UserController');
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('user', 'Api\UserController@user');
 
+    Route::resource('users', 'Api\UserController');
+
+    Route::get('getClients','Api\UserController@getClients');
+    Route::resource('roles', 'Api\RoleController');
+
+
+    Route::post('checkClients','Api\UserController@checkClients');
+
+    //Users
+    Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
     
     // API route for logout user
     Route::post('logout', [AuthController::class, 'logout']);
+
+    
 });
-Route::resource('roles', 'Api\RoleController');
 
-Route::get('getClients','Api\UserController@getClients');
-Route::post('checkClients','Api\UserController@checkClients');
-
-//Users
-Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
+/*Route::get('correo', function(){
+    Mail::to("anarqueabrn@gmail.com")->send(new Prueba());
+});*/
