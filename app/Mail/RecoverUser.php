@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class UserSaved extends Mailable
+class RecoverUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +30,6 @@ class UserSaved extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.usersaved')->subject("Usuario creado")->from(env("MAIL_USERNAME"));
+        return $this->markdown('emails.recoveryUser')->subject("Confirmar cambio de contraseña")->from(env("MAIL_USERNAME"));
     }
 }

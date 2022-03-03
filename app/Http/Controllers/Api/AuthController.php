@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -83,6 +84,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
+        
 
         if ($user) {
             if($user->is_phone_verified == 0 || $user->is_phone_verified == false){
@@ -98,6 +100,13 @@ class AuthController extends Controller
             //    return response($response, 422);
             //}
             else if (Hash::check($request->password, $user->password)) {
+                if($user->tokens->count()>0){
+                    return $user->tokens->map(function($token){
+                        return ['name'=>$token->name,
+                                'last_used_at'=>$token->last_used_at];
+                    });
+                    //PersonalAccessToken::where('tokenable_id',$user->id)->delete();
+                }
                 $token = $user->createToken($request->device_name)->plainTextToken;
                 $response = ['user' => $user,'token' => $token];
                 return response($response, 200);
@@ -112,11 +121,17 @@ class AuthController extends Controller
 
     }
 
+    public function closeAllSessions($email){
+        $user = User::where('email',$email)->first();
+        $user->tokens->delete();
+        return response(['message'=>'Las sesiones han sido cerradas exitosamente'],200);
+    }
+
     // method for user logout and delete token
     public function logout(Request $request)
     {
         //Hacer que solo borre el token actual o el que le manda el usuario
-        auth()->user()->tokens()->delete();
+        auth()->user()->tokens->delete();
 
         $response = [
 

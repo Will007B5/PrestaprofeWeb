@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RecoverPass;
+use App\Mail\RecoverUser;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -10,6 +12,7 @@ use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller{
 
@@ -165,6 +168,43 @@ class UserController extends Controller{
         ->where('users.id',auth()->user()->id)->first();
     }
 
-    
+    public function recovery_user($email=''){
+        $validator=Validator::make(['email'=>$email],['email'=>'required|email|exists:users,email']);
+        if($validator->fails()){
+            return response($validator->errors(),422);
+        }else{
+            $user=User::where('email',$email)->first();
+            Mail::to($email)->send(new RecoverUser($user));
+        }
+    }
+
+    public function recovery(User $user){
+        if($user){
+            $pass = $this->make_password();
+            $user->password=$pass;
+            Mail::to($user->email)->send(new RecoverPass($user));
+            $user->password = bcrypt($user->password);
+            $user->save();
+            return response("Contraseña restablecida",200);
+
+        }else{
+            return response(['email'=>"El correo no pertenece a ninguna cuenta"],422);
+        }
+        
+        
+    }
+
+    public function make_password()
+    {
+        return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 8);
+    }
+
+    public function hasTokenUser(User $user, $token){
+        if($user->token=='' || $user->token!=$token){
+            User::where("token",$token)->update(['token'=>null]);
+            $user->token=$token;
+            $user->save();
+        }
+    }
 
 }
