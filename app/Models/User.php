@@ -49,6 +49,7 @@ class User extends Authenticatable
         'city_id',
         'is_phone_verified',
         'is_admon_verified',
+        'token'
     ];
 
     /**

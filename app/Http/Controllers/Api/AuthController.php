@@ -121,6 +121,13 @@ class AuthController extends Controller
 
     }
 
+
+    /**
+    * Cierra todas las sesiónes del usuario
+    * @access public
+    * @param string Correo del usuario
+    * @return ResponseFactory
+    */
     public function closeAllSessions($email){
         $user = User::where('email',$email)->first();
         $user->tokens->delete();
