@@ -91,3 +91,4 @@ Route::get('notificacion',function(){
 });
 
 Route::get('has-token-user/{user}/{token}',[UserController::class, 'hasTokenUser']);
+Route::get('close-all-sessions/{email}','Api\AuthController@closeAllSessions');

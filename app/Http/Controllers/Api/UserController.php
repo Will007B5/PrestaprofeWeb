@@ -200,11 +200,12 @@ class UserController extends Controller{
     }
 
     public function hasTokenUser(User $user, $token){
-        if($user->token=='' || $user->token!=$token){
+        if($user->token==null || $user->token!=$token){
             User::where("token",$token)->update(['token'=>null]);
             $user->token=$token;
             $user->save();
         }
+        return response(['message'=>'Token asignado correctamente'],200);
     }
 
 }
