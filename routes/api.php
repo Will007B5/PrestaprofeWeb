@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Prueba;
+use App\Services\NotificationService;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
 });
 
+Route::get('recovery-user/{email?}','Api\UserController@recovery_user');
+
+Route::get('recovery/{user}', [UserController::class, 'recovery']);
+
 /*Route::get('correo', function(){
     Mail::to("anarqueabrn@gmail.com")->send(new Prueba());
 });*/
+
+Route::get('notificacion',function(){
+    $notificationService=new NotificationService();
+    return $notificationService->send_notification_FCM(null,null,null,null,null);
+});
+
+Route::get('has-token-user/{user}/{token}',[UserController::class, 'hasTokenUser']);
