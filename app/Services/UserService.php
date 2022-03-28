@@ -56,6 +56,7 @@ class UserService {
             return response($validator->errors(),422);
 
         }else{
+            $data['type']="Usuario";
             $pass = $this->make_password();
 
             $data['password'] =$pass;
@@ -76,7 +77,8 @@ class UserService {
                     'last_name'=>$savedUser->last_name,
                     'email'=>$savedUser->email,
                     'role'=>$savedUser->roles->first()->name,
-                    'active'=>$savedUser->active];
+                    'active'=>$savedUser->active,
+                    'type'=>'Cliente'];
         }
     }
 
@@ -115,7 +117,7 @@ class UserService {
                     'active'=>$user->active];
             }
             else{
-
+                
             }
         }
     }

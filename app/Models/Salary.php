@@ -15,8 +15,9 @@ class Salary extends Model
         'range'
     ];
 
-    public function users()
+    public function info_clients()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Info_client::class);
     }
+
 }

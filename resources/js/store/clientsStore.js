@@ -49,7 +49,7 @@ const clientsStore = {
         },
         getCliente: async function({commit},id){
             try{
-                const response = await axios.get("/api/users/"+id);
+                const response = await axios.get("/api/getClient/"+id);
                 commit('getClient',response.data);
             }catch(error){
 

@@ -11,7 +11,8 @@ class PaymentExtension extends Model
 
     protected $fillable = [
         'start',
-        'end'
+        'end',
+        'loan'
     ];
 
     public function loan()

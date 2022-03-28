@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Models\User;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\UserController;
+use App\Jobs\jobExample;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Prueba;
@@ -58,24 +59,33 @@ Route::post('importaEstados', [StateController::class, 'importStates']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('user', 'Api\UserController@user');
-
-    Route::resource('users', 'Api\UserController');
-
-    Route::get('getClients','Api\UserController@getClients');
-    Route::resource('roles', 'Api\RoleController');
-
-
-    Route::post('checkClients','Api\UserController@checkClients');
-
-    //Users
-    Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
-    
-    // API route for logout user
-    Route::post('logout', [AuthController::class, 'logout']);
+   
 
     
 });
+/////
+Route::get('user', 'Api\UserController@user');
+
+Route::resource('users', 'Api\UserController');
+
+//Obtiene informacion de todos los clientes
+Route::get('getClients','Api\UserController@getClients');
+//Obteine información de un cliente
+Route::get('getClient/{user}','Api\UserController@getClient');
+
+Route::resource('roles', 'Api\RoleController');
+
+
+Route::post('checkClients','Api\UserController@checkClients');
+
+//Users
+Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
+
+// API route for logout user
+Route::post('logout', [AuthController::class, 'logout']);
+/////
+Route::resource('info-clients','Info_clientController');
+
 
 Route::get('recovery-user/{email?}','Api\UserController@recovery_user');
 
@@ -92,3 +102,9 @@ Route::get('notificacion',function(){
 
 Route::get('has-token-user/{user}/{token}',[UserController::class, 'hasTokenUser']);
 Route::get('close-all-sessions/{email}','Api\AuthController@closeAllSessions');
+
+Route::get('cards',function(){
+    return User::find(1)->first();
+});
+
+ 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+class Occupation extends Model
 {
 
     use HasFactory;
@@ -16,4 +16,8 @@ class Job extends Model
         'name',
         'description',
     ];
+
+    public function info_clients(){
+        return $this->hasMany(Info_client::class);
+    }
 }

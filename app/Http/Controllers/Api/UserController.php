@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Mail\RecoverPass;
 use App\Mail\RecoverUser;
 use App\Models\User;
+use App\Models\Info_client;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -74,7 +76,7 @@ class UserController extends Controller{
             'second_reference_person_name' => 'required|string',
             'second_reference_person_phone' => 'required|string|size:10',
             'city_id' => 'required|exists:cities,id',
-            'job_id' => 'required|exists:jobs,id',
+            'occupation_id' => 'required|exists:occupations,id',
         ];
 
         $validator = Validator::make($data, $rules);
@@ -82,14 +84,40 @@ class UserController extends Controller{
             return response($validator->errors(), 422);
         }else{
             $data['type'] = 'Cliente';
+            $data['is_phone_verified'] = 0;
             $data['ine'] = $request['ine']->store('clients');
             $data['ine_back'] = $request['ine_back']->store('clients');
             $data['pay_stub'] = $request['pay_stub']->store('clients');
             $data['selfie'] = $request['selfie']->store('clients');
             $data['proof_address'] = $request['proof_address']->store('clients');
             $data['password'] = bcrypt($data['password']);
-            $client = User::create($data);
-            return $client;
+
+            $dataClient['birth_date'] = $data['birth_date'];
+            $dataClient['gender'] = $data['gender'];
+            $dataClient['civil_status'] = $data['civil_status'];
+            $dataClient['curp'] = $data['curp'];
+            $dataClient['rfc'] = $data['rfc'];
+            $dataClient['ine'] = $data['ine'];
+            $dataClient['ine_back'] = $data['ine_back'];
+            $dataClient['pay_stub'] = $data['pay_stub'];
+            $dataClient['selfie'] = $data['selfie'];
+            $dataClient['proof_address'] = $data['proof_address'];
+            $dataClient['first_reference_person_name'] = $data['first_reference_person_name'];
+            $dataClient['first_reference_person_phone'] = $data['first_reference_person_phone'];
+            $dataClient['second_reference_person_name'] = $data['second_reference_person_name'];
+            $dataClient['second_reference_person_phone'] = $data['second_reference_person_phone'];
+            try{
+                $user = User::create($data);
+                $client = $user->info_client()->create($dataClient);
+                $client['salary_id'] = $data['salary_id'];
+                $client['city_id'] = $data['city_id'];
+                $client['occupation_id'] = $data['occupation_id'];
+                $client['level_id'] = $data['salary_id'];
+                $client->save();
+            }catch(Exception $e){
+                return $e;
+            }
+            return $user;
         }
     }
 
@@ -137,6 +165,17 @@ class UserController extends Controller{
         $users = User::select('id','name','last_name','is_admon_verified')->where('type','Cliente')->get();
         return response($users,200);
     }
+
+    public function getClient(User $user){
+        
+        $res=$user::select('users.id','users.name', 'users.last_name', 'users.address', 'users.phone', 'users.email',
+        'info.birth_date','info.gender','info.civil_status','info.curp','info.rfc','info.ine','info.ine_back','info.pay_stub',
+        'info.selfie','info.proof_address', 'info.first_reference_person_name', 'info.first_reference_person_phone',
+        'info.second_reference_person_name', 'info.second_reference_person_phone')->
+        join('info_clients as info','users.id','=','info.user_id')->where('users.id',$user->id)->first();
+        return $res;
+    }
+
     public function checkClients(Request $rq)
     {
         $data=$rq->all();
