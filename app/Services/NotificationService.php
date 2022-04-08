@@ -13,7 +13,7 @@ class NotificationService{
         $requestUrl = "https://fcm.googleapis.com/fcm/send";
         $formParams = [
             "notification" => [
-                "body" => "TExto de la notificacion",
+                "body" => "Texto de la notificacion",
                 "title" => "Titulo"
             ],
             'priority' => 'high',

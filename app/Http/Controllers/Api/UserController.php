@@ -71,6 +71,7 @@ class UserController extends Controller{
             'pay_stub' => 'required|mimes:pdf,jpg,jpeg,png',
             'selfie' => 'required|image',
             'proof_address' => 'required|mimes:pdf,jpg,jpeg,png',
+            'birth:certificate' => 'mimes: pdf, jpg, jpeg, png',
             'first_reference_person_name' => 'required|string',
             'first_reference_person_phone' => 'required|string|size:10',
             'second_reference_person_name' => 'required|string',
@@ -102,6 +103,7 @@ class UserController extends Controller{
             $dataClient['pay_stub'] = $data['pay_stub'];
             $dataClient['selfie'] = $data['selfie'];
             $dataClient['proof_address'] = $data['proof_address'];
+            $dataClient['birth_certificate'] = $data['birth_certificate'];
             $dataClient['first_reference_person_name'] = $data['first_reference_person_name'];
             $dataClient['first_reference_person_phone'] = $data['first_reference_person_phone'];
             $dataClient['second_reference_person_name'] = $data['second_reference_person_name'];
@@ -170,7 +172,7 @@ class UserController extends Controller{
         
         $res=$user::select('users.id','users.name', 'users.last_name', 'users.address', 'users.phone', 'users.email',
         'info.birth_date','info.gender','info.civil_status','info.curp','info.rfc','info.ine','info.ine_back','info.pay_stub',
-        'info.selfie','info.proof_address', 'info.first_reference_person_name', 'info.first_reference_person_phone',
+        'info.selfie','info.proof_address', 'info.birth_certificate', 'info.first_reference_person_name', 'info.first_reference_person_phone',
         'info.second_reference_person_name', 'info.second_reference_person_phone')->
         join('info_clients as info','users.id','=','info.user_id')->where('users.id',$user->id)->first();
         return $res;

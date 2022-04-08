@@ -19,6 +19,7 @@ class Info_client extends Model
         'pay_stub',
         'selfie',
         'proof_address',
+        'birth_certificate',
         'first_reference_person_name',
         'first_reference_person_phone',
         'second_reference_person_name',

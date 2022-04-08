@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Services\NotificationService;
+use App\Events\NotificationNextPay;
 
 class jobExample implements ShouldQueue
 {
@@ -35,8 +36,8 @@ class jobExample implements ShouldQueue
     public function handle()
     {
         $notificationService = new NotificationService();
+        Log::info("hola");
+        broadcast(new NotificationNextPay());
         return $notificationService->send_notification_FCM(null, null, null, null, null);
-        
-        
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NotificationNextPay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Prueba;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,32 +61,28 @@ Route::post('importaEstados', [StateController::class, 'importStates']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-   
+    Route::get('user', 'Api\UserController@user');
 
+    Route::resource('users', 'Api\UserController');
     
+    //Obtiene informacion de todos los clientes
+    Route::get('getClients','Api\UserController@getClients');
+    //Obteine información de un cliente
+    Route::get('getClient/{user}','Api\UserController@getClient');
+    
+    Route::resource('roles', 'Api\RoleController');
+    
+    
+    Route::post('checkClients','Api\UserController@checkClients');
+    
+    //Users
+    Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
+    
+    // API route for logout user
+    Route::post('logout', [AuthController::class, 'logout']);    
 });
-/////
-Route::get('user', 'Api\UserController@user');
 
-Route::resource('users', 'Api\UserController');
-
-//Obtiene informacion de todos los clientes
-Route::get('getClients','Api\UserController@getClients');
-//Obteine información de un cliente
-Route::get('getClient/{user}','Api\UserController@getClient');
-
-Route::resource('roles', 'Api\RoleController');
-
-
-Route::post('checkClients','Api\UserController@checkClients');
-
-//Users
-Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
-
-// API route for logout user
-Route::post('logout', [AuthController::class, 'logout']);
-/////
-Route::resource('info-clients','Info_clientController');
+//Route::resource('info-clients','Api\Info_clientController');
 
 
 Route::get('recovery-user/{email?}','Api\UserController@recovery_user');
@@ -107,4 +105,6 @@ Route::get('cards',function(){
     return User::find(1)->first();
 });
 
- 
+Route::get('trigger/{data}', function ($data) {
+    event(new App\Events\prueba($data));
+});

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\jobExample;
-use App\Models\Loan;
+use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -45,12 +45,11 @@ class DailyLoans extends Command
      */
     public function handle()
     {
-        $date = Carbon::now();
-        $end = Carbon::now();
-        $start = Carbon::now()->subYear(3);
-        $loans=Loan::select('*')->whereBetween('accepted_date',[$start, $end])->get();
-        Log::info($start.' == '.$end);
-        $job=dispatch(new jobExample())->delay(20);
-        Log::alert(Carbon::now()->addSeconds(10));
+        $payments=Payment::selectRaw('*,timestampdiff(DAY,curdate(),expired_date) as diff')
+        ->WhereRaw('timestampdiff(DAY,curdate(),expired_date) < 8')->where('status','=','Pagado')->get();
+        Log::info($payments);
+        foreach ($payments as $payment) {
+            dispatch(new jobExample())->delay(15);
+        }
     }
 }
