@@ -9,22 +9,23 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class prueba implements ShouldBroadcast
+class NotificationExpiredPayment implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $mensaje;
+    public $id, $dias, $mensaje, $titulo;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($id, $diff)
     {
-        Log::info($data);
-        $this->mensaje=$data;
+        $this->id=$id;
+        $this->dias=$diff;
+        $this->titulo="¡Tienes pagos vencidos!";
+        $this->mensaje="Al parecer tienes pagos vencidos, pagalos y evita pagar de más";
     }
 
     /**
@@ -34,6 +35,6 @@ class prueba implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel("canal");
+        return new PrivateChannel('DailyLoanChannel.'.$this->id);
     }
 }

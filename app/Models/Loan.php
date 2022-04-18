@@ -31,7 +31,7 @@ class Loan extends Model
     }
 
     public function payments(){
-      return $this->hasMany(Payment::class);
+      return $this->belongsToMany(Payment::class);
     }
 
     public function payment_extensions(){

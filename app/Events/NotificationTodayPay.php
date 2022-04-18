@@ -9,22 +9,26 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class prueba implements ShouldBroadcast
+class NotificationTodayPay implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $id;
+    public $dias;
+    public $titulo;
     public $mensaje;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($id, $diff)
     {
-        Log::info($data);
-        $this->mensaje=$data;
+        $this->id = $id;
+        $this->titulo="¡La fecha limite de pago es hoy!";
+        $this->mensaje="No olvides realizar tu pago hoy, evita generar intereses";
+        $this->dias = $diff;
     }
 
     /**
@@ -34,6 +38,6 @@ class prueba implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel("canal");
+        return new PrivateChannel('DailyLoanChannel.'.$this->id);
     }
 }

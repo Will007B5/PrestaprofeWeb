@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\jobExample;
+use App\Jobs\JobDaily;
+use App\Jobs\JobExpiredPayment;
+use App\Jobs\JobTodayPay;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -45,11 +47,29 @@ class DailyLoans extends Command
      */
     public function handle()
     {
+        //Obtiene los pagos que tenga van a expirar dentro de 8 dias
         $payments=Payment::selectRaw('*,timestampdiff(DAY,curdate(),expired_date) as diff')
-        ->WhereRaw('timestampdiff(DAY,curdate(),expired_date) < 8')->where('status','=','Pagado')->get();
-        Log::info($payments);
+        ->WhereRaw('timestampdiff(DAY,curdate(),expired_date) < 8')->where('status','=','Pagado')
+        ->whereRaw('timestampdiff(DAY,curdate(),expired_date) > 0')
+        ->get();
         foreach ($payments as $payment) {
-            dispatch(new jobExample())->delay(15);
+            dispatch(new JobDaily($payment->id, $payment->diff))->delay(15);
+        }
+
+        //Obtiene los pagos que se vencen el dia de hoy
+        $payments_vencen=$payments=Payment::selectRaw('*,timestampdiff(DAY,curdate(),expired_date) as diff')
+        ->WhereRaw('timestampdiff(DAY,curdate(),expired_date) = 0')
+        ->get();
+        foreach($payments_vencen as $payment){
+            dispatch(new JobTodayPay($payment->id, $payment->diff))->delay(15);
+        }
+        
+        //Obtiene los pagos que estan atrasados
+        $payments_atrasados=$payments=Payment::selectRaw('*,timestampdiff(DAY,curdate(),expired_date) as diff')
+        ->WhereRaw('timestampdiff(DAY,curdate(),expired_date) < 0')->where('status','Atrasado')
+        ->get();
+        foreach($payments_atrasados as $payment){
+            dispatch(new JobExpiredPayment($payment->id, $payment->diff))->delay(15);
         }
     }
 }

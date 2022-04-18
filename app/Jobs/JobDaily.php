@@ -13,19 +13,25 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Services\NotificationService;
 use App\Events\NotificationNextPay;
+use App\Events\prueba as EventsPrueba;
 
-class jobExample implements ShouldQueue
+class JobDaily implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $id;
+    public $diff;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id, $diff)
     {
-        //
+        $this->id=$id;
+        $this->diff=$diff;
+        Log::alert('Desde job Daily: '.$id);
+        event(new NotificationNextPay($this->id, $this->diff));
     }
 
     /**
@@ -35,9 +41,6 @@ class jobExample implements ShouldQueue
      */
     public function handle()
     {
-        $notificationService = new NotificationService();
-        Log::info("hola");
-        broadcast(new NotificationNextPay());
-        return $notificationService->send_notification_FCM(null, null, null, null, null);
+        
     }
 }

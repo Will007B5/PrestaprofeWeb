@@ -14,15 +14,21 @@ use Illuminate\Support\Facades\Log;
 class NotificationNextPay implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $message;
+    public $id;
+    public $mensaje;
+    public $dias;
+    public $titulo;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($id, $diff)
     {
-        $this->message = $data;
+        $this->id = $id;
+        $this->dias=$diff;
+        $this->titulo="La fecha de pago esta próxima a vencer";
+        $this->mensaje="Faltan ".$this->dias." días para que el próximo pago se venza";
     }
 
     /**
@@ -32,6 +38,6 @@ class NotificationNextPay implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('channel-message');
+        return new PrivateChannel('DailyLoanChannel.'.$this->id);
     }
 }
