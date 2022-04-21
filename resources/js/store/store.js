@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import loginModule from './loginModule';
 import clientsStore from './clientsStore';
 import usersStore from './usersStore';
+import loansStore from './loansStore';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
     modules: {
         loginModule,
         clientsStore,
-        usersStore
+        usersStore,
+        loansStore
     },
 
 });

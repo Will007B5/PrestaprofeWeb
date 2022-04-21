@@ -37,4 +37,8 @@ class Loan extends Model
     public function payment_extensions(){
       return $this->hasMany(PaymentExtension::class);
     }
+
+    public function user(){
+      return $this->belongsTo(User::class);
+    }
 }

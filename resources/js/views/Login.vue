@@ -120,6 +120,7 @@ export default {
                 this.$router.push({name: 'Inicio'});
             } catch (error) {
                 this.errorLogin=error.response.data.errors;
+                
             }finally{
                 this.isLoadingButton=false;
             }

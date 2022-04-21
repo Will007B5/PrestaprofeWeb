@@ -4,6 +4,7 @@ use App\Events\NotificationNextPay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Models\User;
 use App\Http\Controllers\Api\StateController;
 use App\Http\Controllers\Api\UserController;
@@ -79,8 +80,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('changeStatusUser/{user}','Api\UserController@changeStatusUser');
     
     // API route for logout user
-    Route::post('logout', [AuthController::class, 'logout']);    
+    Route::post('logout', [AuthController::class, 'logout']);
+    
 });
+
+//Payments
+Route::resource('loans','Api\LoanController');
 
 //Route::resource('info-clients','Api\Info_clientController');
 
