@@ -84,8 +84,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
 });
 
-//Payments
+//loans
 Route::resource('loans','Api\LoanController');
+
+//loanStates
+Route::get('loan-states/{id}','Api\LoanStateController@states');
 
 //Route::resource('info-clients','Api\Info_clientController');
 

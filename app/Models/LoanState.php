@@ -9,10 +9,16 @@ class LoanState extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-        'name'
+        'name',
+        'active'
+    ];
+
+    protected $hidden=[
+        'pivot'
     ];
     
     public function loans(){
         return $this->belongsToMany(Loan::class);
     }
+
 }

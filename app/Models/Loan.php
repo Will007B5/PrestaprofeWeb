@@ -41,4 +41,8 @@ class Loan extends Model
     public function user(){
       return $this->belongsTo(User::class);
     }
+
+    public function states(){
+      return $this->belongsToMany(LoanState::class, 'loan_loanstate');
+    }
 }
