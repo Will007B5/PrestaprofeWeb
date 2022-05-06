@@ -10,11 +10,13 @@ class SavingBank extends Model
     use HasFactory;
     protected $fillable = [
         'amount',
-        'description'
+        'description',
+        'user_id'
     ];
 
     public function user()
     {
-      $this->belongsTo(User::class);
+      return $this->hasOne(SavingBank::class);
     }
+
 }

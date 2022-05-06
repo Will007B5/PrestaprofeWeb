@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-use App\Models\Job;
+use App\Models\Occupation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,7 +10,7 @@ class JobController extends Controller
 {
     public function index()
     {
-        return Job::all();
+        return Occupation::all();
     }
 
 
@@ -27,12 +27,12 @@ class JobController extends Controller
        if($validator->fails()){
            return response($validator->errors(),422);
        }else{
-           $job = Job::create($data);
+           $job = Occupation::create($data);
            return $job;
        }
     }
 
-    public function update(Request $request, Job $job)
+    public function update(Request $request, Occupation $job)
     {
         $data = $request->all();
        $rules = [
@@ -50,7 +50,7 @@ class JobController extends Controller
        }
     }
 
-    public function destroy(Job $job)
+    public function destroy(Occupation $job)
     {
         $job->delete();
         return $job;

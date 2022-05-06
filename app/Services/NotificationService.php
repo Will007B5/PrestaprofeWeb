@@ -13,16 +13,14 @@ class NotificationService{
         $requestUrl = "https://fcm.googleapis.com/fcm/send";
         $formParams = [
             "notification" => [
-                "body" => "TExto de la notificacion",
+                "body" => "Texto de la notificacion",
                 "title" => "Titulo"
             ],
             'priority' => 'high',
             'data' => [
                 'data' => 'esta es un data'
             ],
-            "registration_ids"=>["cuSM_LxGRfCifKOMfxDy_v:APA91bFDP1b9a8U0OlOevPNHZeMcoy8llJw6e1gl4G5pU2beLXNvRUdyXVZHdazcBMfEE8fYtrIBW6FSEEIyuXITHssz3bnLXTxpaICAcY5hvzrWkN9B-SFY3ntPMbyyZmmxdbLQKaCH"
-                ,"dg6g2Fe1QGyh8oag0ZI_9j:APA91bERkV_KfNPG3PpdEn31I4X_UBWtkvHWHH9QfJR_oYqXSwlaxCO1kw9Y2YVF4NQ44VtUCMeHaHKYe7IYalvQnX1z4XIVhpjIJ_oNfZfSs_iMP4y3HDAYeVOegBnOOdRUeqckNZWR",
-            "cpMbLNN3QBKNSn_BLDDtpB:APA91bGj59vmvz9UF1a40Dvo_kn8dSBc0GTXbztd6whQ0hsyGepxjX_X2ZaGiF6VsRIpWsouKueqC4YNFZFxMhFJ5VlPF_1V5zvchEP8Q_tdr_SFkx-VzMvNRbMqlHJVtgcfrmMYNdkT"]
+            "registration_ids"=>["ce5UBaFfQlOqx2Y0okGnD-:APA91bGUGTou8hn3UmIeQt-Wnzfn-VeE1Tz7RkoJI4bcRdOeQpG1PTchHLt3sVggj9XW0aEu9ptbQMgzj_44A4lD3SUhapSxwntRwXUzuI2yClN4vSsegf6jFcncPOKb66n9gVdGjNc1"]
         ];
         $headers = [
             'Accept'=> 'application/json',

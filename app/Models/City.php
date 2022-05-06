@@ -21,5 +21,11 @@ class City extends Model
     {
         return $this->belongsTo(Municipality::class);
     }
+    public function info_clients(){
+        return $this->hasMany(Info_client::class);
+    }
+    public function institutions(){
+        return $this->hasMany(Institutions::class);
+    }
 
 }

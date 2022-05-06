@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Loan;
 
 class LoanState extends Model
 {
-    use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'name'
+        'name',
+        'active'
     ];
 
-    public function loans()
-    {
+    protected $hidden=[
+        'pivot'
+    ];
+    
+    public function loans(){
         return $this->belongsToMany(Loan::class);
     }
+
 }

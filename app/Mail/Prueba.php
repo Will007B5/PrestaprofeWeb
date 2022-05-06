@@ -10,15 +10,16 @@ use Illuminate\Queue\SerializesModels;
 class Prueba extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $date;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($date)
     {
         //
+        $this->date=$date;
     }
 
     /**

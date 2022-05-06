@@ -22,31 +22,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'last_name',
-        'birth_date',
-        'gender',
-        'civil_status',
-        'curp',
         'address',
-        //'institution_id',
         'type',
-        'salary_id',
         'phone',
         'email',
         'password',
-        'rfc',
-        'ine',
-        'ine_back',
-        'pay_stub',
-        'selfie',
-        'proof_address',
-        'first_reference_person_name',
-        'first_reference_person_phone',
-        'second_reference_person_name',
-        'second_reference_person_phone',
-        'city_id',
-        'saving_bank_id',
-        'job_id',
-        'city_id',
+        'active',
         'is_phone_verified',
         'is_admon_verified',
         'token'
@@ -71,38 +52,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function institution()
-    {
-        return $this->belongsTo(Institution::class);
-    }
+   public function info_client(){
+       return $this->hasOne(Info_client::class);
+   }
 
-    public function salary()
-    {
-        return $this->belongsTo(Salary::class);
-    }
+   public function saving_bank(){
+       return $this->hasMany(SavingBank::class);
+   }
 
-    public function job()
-    {
-        return $this->belongsTo(Job::class);
-    }
+   public function payment_reference(){
+       return $this->hasMany(Payment_reference::class);
+   }
 
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
+   public function card(){
+       return $this->hasMany(Card::class);
+   }
 
-    public function loans()
-    {
-        return $this->hasMany(Loan::class);
-    }
-
-    public function cards()
-    {
-        return $this->hasMany(Card::class);
-    }
-
-    public function savingBanks()
-    {
-        return $this->hasMany(SavingBank::class);
-    }
 }
+

@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentExtension extends Model
+class Occupation extends Model
 {
+
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'start',
-        'end'
+        'name',
+        'description',
     ];
 
-    public function loan()
-    {
-       $this->belongsTo(Loan::class);
+    public function info_clients(){
+        return $this->hasMany(Info_client::class);
     }
 }

@@ -18,13 +18,8 @@ class Institution extends Model
         'city_id'
     ];
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
-
-    public function city()
-    {
+    public function city(){
         return $this->belongsTo(City::class);
     }
+
 }
