@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Prueba;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use App\Models\Loan;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,8 +89,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 //loans
 Route::resource('loans','Api\LoanController');
 
+//PDFS
+Route::get('loan-pdf', 'Api\LoanController@loanPdf');
+
 //loanStates
-Route::get('loan-states/{id}','Api\LoanStateController@states');
+Route::resource('loan-states', 'Api\LoanStateController');
 
 //Route::resource('info-clients','Api\Info_clientController');
 

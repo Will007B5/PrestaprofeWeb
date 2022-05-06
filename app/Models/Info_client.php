@@ -27,7 +27,8 @@ class Info_client extends Model
         'user_id',
         'salary_id',
         'city_id',
-        'occupations_id'
+        'occupations_id',
+        'filter_id'
     ];
 
     public function occupation(){
@@ -48,6 +49,10 @@ class Info_client extends Model
 
     public function level(){
         return $this->belongsTo(Level::class);
+    }
+
+    public function filter(){
+        return $this->belongsTo(Filter::class);
     }
 }
 

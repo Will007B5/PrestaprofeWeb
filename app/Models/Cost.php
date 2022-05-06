@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cost extends Model
 {
-    protected $fillable=[];
+    protected $fillable=[
+        'min_mount',
+        'max_mount',
+        'interest',
+        'copc',
+        'val_reference',
+        'iva',
+        'late_interest'
+    ];
 
 }

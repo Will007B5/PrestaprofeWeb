@@ -12,12 +12,13 @@ import { default } from './Login.vue';
                     single-line
                     hide-details
                     v-model="search"
+                    dense
                 ></v-text-field>
                 <v-spacer></v-spacer>
                 <v-btn
                     class="ma-2"
                     id="btnHerramientas"
-                    @click="isBtnSearchTools=!isBtnSearchTools"
+                    @click="showTools"
                 >Herramientas de búsqueda
                 <v-icon>mdi-menu-down</v-icon></v-btn>
             </v-card-title>
@@ -26,16 +27,13 @@ import { default } from './Login.vue';
                 class="contenedorHerramientas">
                 <v-select
                     label="Seleccionar Estado"
+                    :items="loanStates"
+                    item-text="name"
                     solo
                     hide-details
                     class="cbBusqueda"
-                ></v-select>
-                <v-spacer></v-spacer>
-                <v-select
-                    label="Seleccionar Grupo"
-                    solo
-                    hide-details
-                    class="cbBusqueda"
+                    dense
+                    v-model="searchState"
                 ></v-select>
                 <v-spacer></v-spacer>
                 <v-select
@@ -43,19 +41,13 @@ import { default } from './Login.vue';
                     solo
                     hide-details
                     class="cbBusqueda"
-                ></v-select>
-                <v-spacer></v-spacer>
-                <v-select
-                    label="Seleccionar Institución"
-                    solo
-                    hide-details
-                    class="cbBusqueda"
+                    dense
                 ></v-select>
                 <v-spacer></v-spacer>
             </v-card-actions>
             <v-data-table
                 :headers="headers"
-                :items="loans"
+                :items="filters"
                 :search="search"
                 show-select
                 :item-class="colorRow">
@@ -77,12 +69,13 @@ import { default } from './Login.vue';
                         </template>
                         <v-list>
                             <v-list-item
-                                v-for="(item2, index) in item.accions"
+                                v-for="(item2, index) in listStates"
                                 :key="index"
                                 link
                                 dense>
+                                <v-icon>{{item2.icon}}</v-icon>
                                 <v-list-item-title>
-                                    {{item2.name}}
+                                    {{item2.title}}
                                 </v-list-item-title>
                             </v-list-item>
                         </v-list>
@@ -105,6 +98,7 @@ import { default } from './Login.vue';
         </v-card>
 
         <DialogActionsLoans></DialogActionsLoans>
+
     </div>
 </template>
 
@@ -126,33 +120,30 @@ export default ({
                 {text:'ID', value:'id'}],
             search:'',
             listStates:[
-                {title:'Pendiente', icon:'mdi-clock-outline'},
-                {title:'Revisión', icon: 'mdi-magnify'},
-                {title:'Activo', icon: 'mdi-access-point'},
-                {title:'Vencido', icon: 'mdi-exclamation'},
-                {title:'Congelado', icon: 'mdi-snowflake-alert'},
-                {title:'Pagado', icon: 'mdi-check'},
-                {title:'Rechazado', icon: 'mdi-close'}
+                {title:'Revisar préstamo', icon: 'mdi-magnify', id: 1},
+                {title:'Aceptar préstamo', icon: 'mdi-check', id: 2},
+                {title:'Rechazar préstamo', icon: 'mdi-close', id: 3}
             ],
-            isBtnSearchTools:false
+            isBtnSearchTools:false,
+            searchState:''
         }
     },
     methods: {
         colorRow(item){
             let clase='No';
-            if(item.name=="Pendiente")
+            if(item.state=="Pendiente")
                 clase="colorPendiente";
-            if(item.name=="Revisión")
+            if(item.state=="Revisión")
                 clase="colorRevision";
-            if(item.name=="Activo")
+            if(item.state=="Activo")
                 clase="colorActivo";
-            if(item.name=="Vencido")
+            if(item.state=="Vencido")
                 clase="colorVencido";
-            if(item.name=="Congelado")
+            if(item.state=="Congelado")
                 clase="colorCongelado";
-            if(item.name=="Pagado")
+            if(item.state=="Pagado")
                 clase="colorPagado";
-            if(item.name=="Rechazado")
+            if(item.state=="Rechazado")
                 clase="colorRechazado";
 
             return clase;
@@ -174,18 +165,50 @@ export default ({
             if(state.name=="Rechazado")
                 clase="mdi-close";
             return icono;
+        },
+        showTools(){
+            this.isBtnSearchTools=!this.isBtnSearchTools;
+            this.searchState='';
+        },
+        filterSearchText(item){
+            return item.name.toLowerCase().includes(this.search.toLowerCase());
+        },
+        filterStateText(item){
+            return item.state.toLowerCase().includes(this.searchState.toLowerCase());
         }
     },
     computed:{
         ...mapState({
             loans: state=>state.loansStore.loans
-        })
+        }),
+        ...mapState({
+            loanStates: state=>state.loanStateStore.loanStates
+        }),
+        filters(){
+            let conditions=[];
+            if(this.search){
+                conditions.push(this.filterSearchText);
+            }
+            if(this.searchState){
+                conditions.push(this.filterStateText);
+            }
+
+            if(conditions.length>0){
+                return this.loans.filter((loan)=>{
+                    return conditions.every((condition)=>{
+                        return condition(loan);
+                    })
+                })
+            }
+            return this.loans;
+        }
     },
     components:{
         DialogActionsLoans
     },
     created() {
         this.$store.dispatch('getLoans');
+        this.$store.dispatch('getStates');
     }
 })
 </script>
@@ -205,7 +228,7 @@ export default ({
         background-color: #a39d9d4d;
     }
     .colorPendiente{
-        background-color: rgba(241, 241, 241, 0.26) !important;
+        background-color: rgba(39, 173, 214, 0.26) !important;
     }
     .colorPendiente:hover{
         background-color: rgba(241, 241, 241, 0.450) !important;

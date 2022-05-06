@@ -12,10 +12,14 @@ class Loan extends Model
     protected $fillable = [
         'base_amount',
         'total_amount',
-        'card',
-        'user',
+        'card_id',
+        'user_id',
         'payment_references_id',
-        'payment_types_id'
+        'payment_type_id',
+        'payment_scheme',
+        'category_id',
+        'method_id',
+        'note'
     ];
 
     public function card(){
@@ -30,19 +34,22 @@ class Loan extends Model
       return $this->belongsTo(Payment_reference::class);
     }
 
-    public function payments(){
-      return $this->belongsToMany(Payment::class);
+    public function periods(){
+      return $this->hasMany(Period::class);
     }
 
-    public function payment_extensions(){
-      return $this->hasMany(PaymentExtension::class);
-    }
 
     public function user(){
       return $this->belongsTo(User::class);
     }
 
     public function states(){
-      return $this->belongsToMany(LoanState::class, 'loan_loanstate');
+      return $this->belongsToMany(LoanState::class);
+    }
+    public function method(){
+      return $this->belongsTo(Method::class);
+    }
+    public function category(){
+      return $this->belongsTo(Category::class);
     }
 }

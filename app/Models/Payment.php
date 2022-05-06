@@ -18,7 +18,7 @@ class Payment extends Model{
         'loans_id'
     ];
 
-    public function loans(){
-        return $this->belongsToMany(Loan::class);
+    public function period(){
+        return $this->belongsTo(Period::class);
     }
 }

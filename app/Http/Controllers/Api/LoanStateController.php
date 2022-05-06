@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class LoanStateController extends Controller
 {
-    public function states($id){
-        return LoanState::select('*')->where('id','>',$id)->get();
+    public function index(){
+        return LoanState::all();
     }
 }
