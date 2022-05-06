@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
-class Info_clientController extends Controller
+class InfoClientController extends Controller
 {
     public function index(){
         return Info_client::all();
@@ -84,7 +84,7 @@ class Info_clientController extends Controller
         if($validator->fails()){
             return response($validator->errors(), 422);
         }else{
-            
+
             $client = User::create($data);
             return $client;
         }
