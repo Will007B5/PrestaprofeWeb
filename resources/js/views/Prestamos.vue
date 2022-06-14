@@ -72,7 +72,8 @@ import { default } from './Login.vue';
                                 v-for="(item2, index) in listStates"
                                 :key="index"
                                 link
-                                dense>
+                                dense
+                                v-on:click="changeStatusLoan(item2, item)">
                                 <v-icon>{{item2.icon}}</v-icon>
                                 <v-list-item-title>
                                     {{item2.title}}
@@ -91,19 +92,22 @@ import { default } from './Login.vue';
                 <template v-slot:item.accion="{item}">
                     <v-btn
                         icon>
-                        <v-icon>mdi-eye</v-icon>
+                        <v-icon
+                            v-on:click="openDialogPdf(item)"
+                        >mdi-eye</v-icon>
                     </v-btn>
                 </template>
             </v-data-table>
         </v-card>
 
-        <DialogActionsLoans></DialogActionsLoans>
-
+        <DialogPdf ref="dialogPdfComponent" :loan="loan"></DialogPdf>
+        <DialogNote></DialogNote>
     </div>
 </template>
 
 <script>
-import DialogActionsLoans from '../components/DialogActionsLoans.vue';
+import DialogPdf from '../components/DialogPdf.vue';
+import DialogNote from '../components/DialogNote.vue';
 import { mapState } from 'vuex';
 
 export default ({
@@ -120,15 +124,23 @@ export default ({
                 {text:'ID', value:'id'}],
             search:'',
             listStates:[
-                {title:'Revisar préstamo', icon: 'mdi-magnify', id: 1},
-                {title:'Aceptar préstamo', icon: 'mdi-check', id: 2},
-                {title:'Rechazar préstamo', icon: 'mdi-close', id: 3}
+                {title:'Revisar préstamo', icon: 'mdi-magnify', id: 2},
+                {title:'Aceptar préstamo', icon: 'mdi-check', id: 3},
+                {title:'Rechazar préstamo', icon: 'mdi-close', id: 8}
             ],
             isBtnSearchTools:false,
-            searchState:''
+            searchState:'',
+            src:'http://127.0.0.1:8000/api/loan-pdf/1',
+            isDialogPdf:false,
+            loan:{}
         }
     },
     methods: {
+        openDialogPdf(loan){
+            this.loan=loan;
+            this.$refs.dialogPdfComponent.changePdf("http://127.0.0.1:8000/api/loan-pdf/"+loan.id+"#toolbar=0");
+            this.$refs.dialogPdfComponent.openPdf();
+        },
         colorRow(item){
             let clase='No';
             if(item.state=="Pendiente")
@@ -175,6 +187,9 @@ export default ({
         },
         filterStateText(item){
             return item.state.toLowerCase().includes(this.searchState.toLowerCase());
+        },
+        changeStatusLoan(state, loan){
+            console.log(loan);
         }
     },
     computed:{
@@ -204,7 +219,8 @@ export default ({
         }
     },
     components:{
-        DialogActionsLoans
+        DialogPdf,
+        DialogNote
     },
     created() {
         this.$store.dispatch('getLoans');

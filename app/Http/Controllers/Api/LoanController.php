@@ -57,7 +57,7 @@ class LoanController extends Controller
     }
 
     public function loanPdf(Loan $loan){
-        $pdf = PDF::loadView('pdfs.ReportLoan');
+        $pdf = PDF::loadView('pdfs.ReportLoan', compact('loan'));
         return $pdf->stream();
     }
 }

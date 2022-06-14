@@ -2,7 +2,7 @@ import axios from "axios";
 
 const loansStore = {
     state:{
-        loans:[]
+        loans:[],
     },
     mutations:{
         setLoans(state, loans){

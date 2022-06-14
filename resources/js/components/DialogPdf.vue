@@ -7,7 +7,7 @@
             <v-toolbar
                 color="#006a82">
                 <v-spacer></v-spacer>
-                <v-toolbar-title class="white--text">Detalles del préstamo / <span>#</span></v-toolbar-title>
+                <v-toolbar-title class="white--text">Detalles del préstamo / #<span>{{loan.id}}</span></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn
                     icon
@@ -36,7 +36,14 @@
                 </v-btn>
             </v-toolbar>
             <div class="contenedor">
-                <iframe class="estiloPdf" :src="pdfSrc"></iframe>
+                <v-progress-circular
+                v-if="isLoading"
+                class="spinner"
+                color="primary"
+                size="100"
+                indeterminate>  
+                </v-progress-circular>
+                <iframe v-show="!isLoading" class="estiloPdf" :onload="loadedPdf()" :src="srcPdf"></iframe>
             </div>
             
         </v-dialog>
@@ -45,30 +52,36 @@
 
 <script>
 export default({
-    name: 'DialogActionsLoans',
+    name: 'DialogPdf',
     data() {
         return {
-            dialog: true,
-            pdfSrc:'http://127.0.0.1:8000/api/loan-pdf#toolbar=0'
+            srcPdf:'',
+            dialog: false,
+            isLoading: true
         }
     },
     methods: {
-        getPdf: async function(){
-            try{
-                const response = await axios.get('/api/loan-pdf');
-                //this.pdfSrc=response.data;
-                console.log(response);
-            }catch(e){
-
-            }
-        },
         closePdf: function(){
             this.dialog=false;
+        },
+        openPdf: function(){
+            this.dialog=true;
+            this.isLoading=true;
+        },
+        changePdf(src){
+            this.srcPdf=src;
+        },
+        loadedPdf(){
+            this.isLoading=false;
+            console.log("YA cargo");
         }
     },
     created() {
-        this.getPdf();
+        
     },
+    props:{
+        loan: Object
+    }
 })
 </script>
 
@@ -86,7 +99,8 @@ export default({
         margin: 0 auto;
         display: block;
     }
-    .dialogo{
-        
+    .spinner{
+        margin: 0 auto;
+        display: block;
     }
 </style>

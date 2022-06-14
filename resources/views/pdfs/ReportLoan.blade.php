@@ -8,12 +8,9 @@
 </head>
 <body>
     <div class="header">
-        <div>
-            <img src="./images/logo_membrete_prestaprofe.png " alt="">
-        </div>
-        <div>
-            <img src="./images/membrete_prestaprofe.png " alt="">
-        </div>
+            <img src="./images/logo_membrete_prestaprofe.png ">
+            <img src="./images/membrete_prestaprofe.png ">
+        {{$loan}}
     </div>
 </body>
 </html>

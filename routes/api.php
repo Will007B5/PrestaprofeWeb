@@ -50,18 +50,16 @@ Route::post('create-client','Api\UserController@createClient');
 Route::get('change-verification-phone-status/{user}','Api\UserController@changeVerificationPhoneStatus');
 
 //CARDS
-
 Route::resource('cards', 'CardController');
 Route::get('my-cards/{user}','CardController@myCards');
 
-
 //LOANS
 Route::resource('loans', 'LoanController');
+
 Route::get('my-loans/{user}','LoanController@myLoans');
 
 
 Route::post('importaEstados', [StateController::class, 'importStates']);
-
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('user', 'Api\UserController@user');
@@ -90,7 +88,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::resource('loans','Api\LoanController');
 
 //PDFS
-Route::get('loan-pdf', 'Api\LoanController@loanPdf');
+Route::get('loan-pdf/{loan}', 'Api\LoanController@loanPdf');
 
 //loanStates
 Route::resource('loan-states', 'Api\LoanStateController');
