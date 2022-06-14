@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Mail\UserSaved;
 use Illuminate\Http\Request;
-use App\Models\Info_client;
+use App\Models\InfoClient;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
-class Info_clientController extends Controller
+class InfoClientController extends Controller
 {
     public function index(){
-        return Info_client::all();
+        return InfoClient::all();
     }
 
-    public function show(Info_client $info_client){
+    public function show(InfoClient $info_client){
         return $info_client;
     }
 

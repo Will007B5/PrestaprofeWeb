@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Info_client extends Model
+class InfoClient extends Model
 {
     public $timestamps=false;
 
